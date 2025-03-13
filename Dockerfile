@@ -23,7 +23,7 @@ COPY server/ .
 COPY --from=client-build /app/client/build ./build
 
 # Expose the port the app runs on
-EXPOSE 5000
+EXPOSE 8000
 
 # Start the server
 CMD ["node", "server.js"]
