@@ -13,7 +13,6 @@ RUN npm run build
 FROM node:16-alpine AS server-build
 WORKDIR /app/serverclear
 
-
 # Copy server files and install dependencies
 COPY server/package*.json ./
 RUN npm install
