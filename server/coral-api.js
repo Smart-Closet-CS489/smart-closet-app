@@ -18,22 +18,49 @@ const baseUrl = 'http://localhost:5000'
  */
 async function createModel(modelData) {
     try {
-      await axios.get(`${baseUrl}/models/${modelData.model_name}`);
-      console.log(`Model "${modelData.model_name}" already exists; skipping creation.`);
-      return { message: `Model "${modelData.model_name}" already exists.` };
+        await axios.get(`${baseUrl}/models/${modelData.model_name}`);
+        console.log(`Model "${modelData.model_name}" already exists; skipping creation.`);
+        return { message: `Model "${modelData.model_name}" already exists.` };
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        try {
-          const response = await axios.post(`${baseUrl}/models`, modelData);
-          return response.data;
-        } catch (creationError) {
-          console.error('Error creating model:', creationError);
-          throw creationError;
+        if (error.response && error.response.status === 404) {
+            try {
+                const response = await axios.post(`${baseUrl}/models`, modelData);
+                return response.data;
+            } catch (creationError) {
+                console.error('Error creating model:', creationError);
+                throw creationError;
+            }
+        } else {
+            console.error('Error checking model existence:', error);
+            throw error;
         }
-      } else {
-        console.error('Error checking model existence:', error);
-        throw error;
-      }
     }
-  }
+}
+
+/**
+ * @param {Array<string>} modelNames
+ * @returns {Promise<Object>}
+ * @throws {Error}
+ */
+async function trainAndCompileModel(modelNames) { //change to account for busy waiting
+    if (!Array.isArray(modelNames) || modelNames.length === 0) {
+        throw new Error("modelNames must be a non-empty array of model names.");
+    }
+    try {
+        const response = await axios.post(`${baseUrl}/models/compilations`, {
+            model_names: modelNames
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error compiling models:', error);
+        throw error;
+    }
+}
+
+module.exports = {
+    createModel,
+    trainAndCompileModel,
+};
+
+
 
