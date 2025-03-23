@@ -38,23 +38,12 @@ async function createModel(modelData) {
 }
 
 /**
- * @param {Array<string>} modelNames
- * @returns {Promise<Object>}
+ * @param {}
+ * @returns {}
  * @throws {Error}
  */
 async function trainAndCompileModel(modelNames) { //change to account for busy waiting
-    if (!Array.isArray(modelNames) || modelNames.length === 0) {
-        throw new Error("modelNames must be a non-empty array of model names.");
-    }
-    try {
-        const response = await axios.post(`${baseUrl}/models/compilations`, {
-            model_names: modelNames
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error compiling models:', error);
-        throw error;
-    }
+    
 }
 
 module.exports = {
