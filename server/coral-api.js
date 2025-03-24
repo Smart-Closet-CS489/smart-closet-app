@@ -2,6 +2,10 @@ const axios = require('axios');
 
 const baseUrl = 'http://localhost:5000'
 
+model1_neurons = 6
+model2_neurons = 6
+model3_neurons = 6
+
 /**
  * @param {Object} modelData
  * @returns {Promise<Object>}
@@ -46,9 +50,41 @@ async function trainAndCompileModel(modelNames) { //change to account for busy w
     
 }
 
+/**
+ * @param {string} modelName
+ * @returns {Promise<Object>}
+ * @throws {Error}
+ */
+async function deleteModel(modelName) {
+    try {
+      const response = await axios.delete(`${baseUrl}/models/${modelName}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting model:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * @param {string} modelName
+   * @returns {Promise<Object>}
+   * @throws {Error}
+   */
+  async function getModelInfo(modelName) {
+    try {
+      const response = await axios.get(`${baseUrl}/models/${modelName}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting model info:', error);
+      throw error;
+    }
+  }
+
 module.exports = {
     createModel,
     trainAndCompileModel,
+    deleteModel,
+    getModelInfo
 };
 
 
