@@ -46,9 +46,19 @@ async function createModel(modelData) {
  * @returns {}
  * @throws {Error}
  */
+async function trainModel(modelNames) {
+    
+}
+
+/**
+ * @param {}
+ * @returns {}
+ * @throws {Error}
+ */
 async function trainAndCompileModel(modelNames) { //change to account for busy waiting
     
 }
+
 
 /**
  * @param {string} modelName
