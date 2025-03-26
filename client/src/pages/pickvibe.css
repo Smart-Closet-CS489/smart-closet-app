@@ -8,8 +8,11 @@
   padding: 0 40px;
 }
 
-.column1, .column2, .column3 {
-  flex: 1; /* Each column takes equal space */
+.column1,
+.column2,
+.column3 {
+  flex: 1;
+  /* Each column takes equal space */
   background-color: lightgray;
   width: 21em;
   height: 25em;
@@ -17,4 +20,15 @@
   padding: 10px 30px;
   text-align: center;
   border-radius: 10px;
+}
+
+
+.button {
+  border: none;
+  background-color: #FFE5EC;
+  text-align: center;
+  padding: 10px 10px;
+  border-radius: 10px;
+  margin: 10px;
+  font-size: 10px;
 }

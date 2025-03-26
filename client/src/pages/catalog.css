@@ -8,8 +8,11 @@
   padding: 0 40px;
 }
 
-.column1, .column2, .column3 {
-  flex: 1; /* Each column takes equal space */
+.column1,
+.column2,
+.column3 {
+  flex: 1;
+  /* Each column takes equal space */
   background-color: lightgray;
   width: 21em;
   height: 25em;
@@ -21,7 +24,10 @@
 
 .radio-group {
   display: flex;
-  flex-direction: column; /* Stack radio buttons vertically */
-  align-items: flex-start; /* Align text to the left */
-  gap: 10px; /* Space between radio buttons */
-} 
+  flex-direction: column;
+  /* Stack radio buttons vertically */
+  align-items: flex-start;
+  /* Align text to the left */
+  gap: 10px;
+  /* Space between radio buttons */
+}

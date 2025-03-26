@@ -1,13 +1,13 @@
 import './pickvibe.css';
 import React from "react";
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 function PickVibe() {
 
 	return (
 		<div>
-     <div className="container">
+			<div className="container">
 				<div className="column1">
 					<h3>Vibe</h3>
 				</div>
@@ -17,10 +17,10 @@ function PickVibe() {
 				<div className="column3">
 					<h3>Current Weather</h3>
 				</div>
-      </div>
-      <Link to="/"><button type="button">Back</button></Link> 
+			</div>
+			<Link to="/"><button type="button">Back</button></Link>
 		</div>
-		
+
 	);
 
 }

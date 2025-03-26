@@ -15,17 +15,17 @@ import GenerateFit from "./pages/generatefit";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+	<React.StrictMode>
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<App />} />
-				<Route path= "/catalog" element={<Catalog />} />
-   			<Route path= "/takephoto" element={<TakePhoto />} />
-     		<Route path= "/pickvibe" element={<PickVibes />} />
-  			<Route path= "/generatefit" element={<GenerateFit />} />
+				<Route path="/catalog" element={<Catalog />} />
+				<Route path="/takephoto" element={<TakePhoto />} />
+				<Route path="/pickvibe" element={<PickVibes />} />
+				<Route path="/generatefit" element={<GenerateFit />} />
 			</Routes>
 		</BrowserRouter>
-  </React.StrictMode> 
+	</React.StrictMode>
 );
 /*
  
