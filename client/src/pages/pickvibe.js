@@ -31,6 +31,14 @@ function PickVibe() {
 					</div>
 					<div className="column2">
 						<h3>Recency</h3>
+						<form className="checkbox-group">
+							<label>
+								<input
+									type="checkbox"
+								/>
+								Include most recent item
+							</label>
+						</form>
 					</div>
 					<div className="column3">
 						<h3>Current Weather</h3>
@@ -42,8 +50,8 @@ function PickVibe() {
 					<button className="backbutton" type="button">Back</button>
 				</Link>
 
-				{/* Take Photo Button */}
-				<Link to={isComplete ? "/takephoto" : "#"} onClick={(e) => !isComplete && e.preventDefault()}>
+				{/* generate fit button */}
+				<Link to={isComplete ? "/generatefit" : "#"} onClick={(e) => !isComplete && e.preventDefault()}>
 					<button className={`photobutton ${isComplete ? "enabled" : "disabled"}`} type="button" disabled={!isComplete}>
 						Generate Outfit
 					</button>
