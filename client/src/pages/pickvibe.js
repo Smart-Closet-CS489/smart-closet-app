@@ -18,7 +18,7 @@ function PickVibe() {
 					<h3>Current Weather</h3>
 				</div>
 			</div>
-			<Link to="/"><button type="button">Back</button></Link>
+			<Link to="/"><button className="backbutton" type="backbutton">Back</button></Link>
 		</div>
 
 	);

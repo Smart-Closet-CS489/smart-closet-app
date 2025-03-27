@@ -14,7 +14,7 @@ function App() {
         </div>
         <div>
           <Link to="/pickvibe">
-            <button className="button " type="button">Create Outfit</button>
+            <button className="button" type="button">Create Outfit</button>
           </Link>
         </div>
       </div>

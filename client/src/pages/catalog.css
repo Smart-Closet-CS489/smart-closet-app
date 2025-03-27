@@ -22,6 +22,16 @@
   border-radius: 10px;
 }
 
+.backbutton {
+  border: none;
+  background-color: #FFE5EC;
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin: 10px;
+  font-size: 15px;
+}
+
 .radio-group {
   display: flex;
   flex-direction: column;
@@ -30,4 +40,9 @@
   /* Align text to the left */
   gap: 10px;
   /* Space between radio buttons */
+}
+
+.sketch-picker {
+  box-shadow: none !important;  /* Remove default shadow */
+  border: 1px solid #ccc; /* Optional: Add a light border */
 }
