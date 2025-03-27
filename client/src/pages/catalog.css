@@ -1,25 +1,46 @@
-.container {
+.catalogcontainer {
   display: flex;
   justify-content: center;
   width: 100vh;
-  gap: 3em;
+  gap: 0em;
   flex-grow: 1;
   align-items: center;
-  padding: 0 40px;
 }
 
-.column1,
-.column2,
-.column3 {
+.pickers {
+  display: flex;
+  justify-content: center;
+}
+.catalogcolumn1,
+.catalogcolumn2,
+.catalogcolumn3,
+.catalogcolumn4 {
   flex: 1;
   /* Each column takes equal space */
-  background-color: lightgray;
-  width: 21em;
+  background-color: rgb(226, 226, 226);
+  width: 30em;
   height: 25em;
   margin: 10px;
   padding: 10px 30px;
   text-align: center;
   border-radius: 10px;
+}
+
+
+.radio-group {
+  display: flex;
+  flex-direction: column; /* stack radio buttons vertically */
+  align-items: flex-start; /* align to the left */
+  gap: 10px; /* space between radio buttons */
+  margin-left: -10px;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column; /* stack buttons vertically */
+  align-items: flex-start; /* align to the left */
+  gap: 10px;
+  margin-left: -10px;
 }
 
 .backbutton {
@@ -32,17 +53,8 @@
   font-size: 15px;
 }
 
-.radio-group {
-  display: flex;
-  flex-direction: column;
-  /* Stack radio buttons vertically */
-  align-items: flex-start;
-  /* Align text to the left */
-  gap: 10px;
-  /* Space between radio buttons */
-}
 
 .sketch-picker {
-  box-shadow: none !important;  /* Remove default shadow */
-  border: 1px solid #ccc; /* Optional: Add a light border */
+  box-shadow: none !important; /* remove shadow */
+  border: 1px solid #ccc;
 }

@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   width: 100vh;
-  gap: 3em;
+  gap: 0em;
   flex-grow: 1;
   align-items: center;
   padding: 0 40px;
@@ -13,7 +13,7 @@
 .column3 {
   flex: 1;
   /* Each column takes equal space */
-  background-color: lightgray;
+  background-color: rgb(226, 226, 226);
   width: 21em;
   height: 25em;
   margin: 10px;
