@@ -11,6 +11,7 @@ function Catalog() {
   const [selectedType, setSelectedType] = useState("");
   const [selectedStyle, setSelectedStyle] = useState("");
   const [selectedVibes, setSelectedVibes] = useState([]);
+  const [selectedColor, setSelectedColor] = useState("");
 
   const handleVibeChange = (event) => {
     const { value, checked } = event.target;
@@ -29,6 +30,12 @@ function Catalog() {
 
     // Disable by default
     $("#cp5d").colorpicker("disable");
+
+    // Listen for color selection
+    $("#cp5d").on("colorpickerChange", function (event) {
+      setSelectedColor(event.color.toString());
+    });
+
   }, []);
 
   useEffect(() => {
@@ -39,6 +46,9 @@ function Catalog() {
       $("#cp5d").colorpicker("disable");
     }
   }, [selectedVibes, selectedStyle]);
+
+  // Check if all selections are made
+  const isComplete = selectedType && selectedStyle && selectedVibes.length > 0 && selectedColor;
 
   return (
     <div>
@@ -165,7 +175,7 @@ function Catalog() {
                 <input
                   type="text"
                   className="form-control input-lg"
-                  defaultValue="rgb(203, 38, 192)"
+                  value={selectedColor || "Pick a color"}
                   disabled
                 />
               </div>
@@ -173,10 +183,18 @@ function Catalog() {
           </div>
         </div>
       </div>
+      <div className="button-container">
+        <Link to="/">
+          <button className="backbutton" type="button">Back</button>
+        </Link>
 
-      <Link to="/">
-        <button className="backbutton" type="button">Back</button>
-      </Link>
+        {/* Take Photo Button */}
+        <Link to={isComplete ? "/takephoto" : "#"} onClick={(e) => !isComplete && e.preventDefault()}>
+          <button className={`photobutton ${isComplete ? "enabled" : "disabled"}`} type="button" disabled={!isComplete}>
+            Take Photo!
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

@@ -20,7 +20,7 @@
   /* Each column takes equal space */
   background-color: rgb(226, 226, 226);
   width: 15em;
-  height: 17em;
+  height: 15em;
   margin: 10px;
   padding: 10px 30px;
   text-align: center;
@@ -30,17 +30,25 @@
 
 .radio-group {
   display: flex;
-  flex-direction: column; /* stack radio buttons vertically */
-  align-items: flex-start; /* align to the left */
-  gap: 10px; /* space between radio buttons */
+  flex-direction: column;
+  /* stack radio buttons vertically */
+  align-items: flex-start;
+  /* align to the left */
+  gap: 10px;
+  /* space between radio buttons */
   margin-left: -10px;
+  font-size: 12px;
+
 }
 
 .checkbox-group {
   display: flex;
-  flex-direction: column; /* stack buttons vertically */
-  align-items: flex-start; /* align to the left */
+  flex-direction: column;
+  /* stack buttons vertically */
+  align-items: flex-start;
+  /* align to the left */
   gap: 10px;
+  font-size: 12px;
   margin-left: -10px;
 }
 
@@ -50,12 +58,47 @@
   text-align: center;
   padding: 10px 15px;
   border-radius: 10px;
-  margin: 10px;
   font-size: 15px;
 }
 
+.photobutton {
+  border: none;
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: not-allowed; /* Default cursor */
+  background-color: rgb(226, 226, 226); /* Default grey */
+  color: black;
+}
+
+.photobutton.enabled {
+  background-color: #FFE5EC;
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between; /* Push buttons to far ends */
+  width: 100%; /* Ensure it spans full width */
+  padding: 10px 20px; /* Add spacing on sides */
+}
 
 .sketch-picker {
-  box-shadow: none !important; /* remove shadow */
+  box-shadow: none !important;
+  /* remove shadow */
   border: 1px solid #ccc;
+}
+
+#cp5d {
+  margin-top: -10px !important; /* padding at top */
+  margin-left: -15px !important; /* padding left */
+  margin-right: -15px !important; /* padding right */
+  padding: 0px;
+  transform: scale(0.9); /* Adjust the scale factor to make it smaller */
+  transform-origin: center; /* Ensure it scales from the center */
+}
+
+#cp5d .colorpicker {
+  padding: 7px; /* Reduce padding */
 }

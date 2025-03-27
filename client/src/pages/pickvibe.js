@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 function PickVibe() {
 	const [selectedVibe, setSelectedVibe] = useState("");
+	const isComplete = selectedVibe;
 
 	return (
 		<div>
@@ -36,7 +37,18 @@ function PickVibe() {
 					</div>
 				</div>
 			</div>
-			<Link to="/"><button className="backbutton" type="backbutton">Back</button></Link>
+			<div className="button-container">
+				<Link to="/">
+					<button className="backbutton" type="button">Back</button>
+				</Link>
+
+				{/* Take Photo Button */}
+				<Link to={isComplete ? "/takephoto" : "#"} onClick={(e) => !isComplete && e.preventDefault()}>
+					<button className={`photobutton ${isComplete ? "enabled" : "disabled"}`} type="button" disabled={!isComplete}>
+						Generate Outfit
+					</button>
+				</Link>
+			</div>
 		</div>
 
 	);
