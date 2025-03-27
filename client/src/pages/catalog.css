@@ -11,6 +11,7 @@
   display: flex;
   justify-content: center;
 }
+
 .catalogcolumn1,
 .catalogcolumn2,
 .catalogcolumn3,
@@ -18,8 +19,8 @@
   flex: 1;
   /* Each column takes equal space */
   background-color: rgb(226, 226, 226);
-  width: 30em;
-  height: 25em;
+  width: 15em;
+  height: 17em;
   margin: 10px;
   padding: 10px 30px;
   text-align: center;

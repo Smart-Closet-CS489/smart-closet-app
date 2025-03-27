@@ -42,131 +42,133 @@ function Catalog() {
 
   return (
     <div>
-      <div className="catalogcontainer">
-        {/* Column 1: Type Selection */}
-        <div className="catalogcolumn1">
+      <div className="pickers">
+        <div className="catalogcontainer">
+          {/* Column 1: Type Selection */}
+          <div className="catalogcolumn1">
 
-          <h3>Type</h3>
-          <form className="radio-group">
-            {[" Top", " Outerwear", " Bottoms", " Shoes"].map((type) => (
-              <label key={type}>
+            <h3>Type</h3>
+            <form className="radio-group">
+              {[" Top", " Outerwear", " Bottoms", " Shoes"].map((type) => (
+                <label key={type}>
+                  <input
+                    type="radio"
+                    name="typeoptions"
+                    value={type}
+                    checked={selectedType === type}
+                    onChange={(e) => {
+                      setSelectedType(e.target.value);
+                      setSelectedStyle(""); // Reset style selection when type changes
+                    }}
+                  />
+                  {type}
+                </label>
+              ))}
+            </form>
+          </div>
+
+          {/* Column 2: Style Selection (appears iff type selected) */}
+          <div className="catalogcolumn2">
+            <h3>Style</h3>
+            {selectedType === " Top" && (
+              <form className="radio-group">
+                {[" T-shirt", " Long Sleeve", " Collared shirt", " Tank Top", " Crop Top"].map((style) => (
+                  <label key={style}>
+                    <input
+                      type="radio"
+                      name="styleoptions"
+                      value={style}
+                      checked={selectedStyle === style}
+                      onChange={(e) => setSelectedStyle(e.target.value)}
+                    />
+                    {style}
+                  </label>
+                ))}
+              </form>
+            )}
+
+            {selectedType === " Outerwear" && (
+              <form className="radio-group">
+                {[" Sweatshirt", " Sweater", " Jacket", " Coat", " Cardigan"].map((style) => (
+                  <label key={style}>
+                    <input
+                      type="radio"
+                      name="styleoptions"
+                      value={style}
+                      checked={selectedStyle === style}
+                      onChange={(e) => setSelectedStyle(e.target.value)}
+                    />
+                    {style}
+                  </label>
+                ))}
+              </form>
+            )}
+
+            {selectedType === " Bottoms" && (
+              <form className="radio-group">
+                {[" Pants", " Shorts", " Skirt", " Leggings"].map((style) => (
+                  <label key={style}>
+                    <input
+                      type="radio"
+                      name="styleoptions"
+                      value={style}
+                      checked={selectedStyle === style}
+                      onChange={(e) => setSelectedStyle(e.target.value)}
+                    />
+                    {style}
+                  </label>
+                ))}
+              </form>
+            )}
+
+            {selectedType === " Shoes" && (
+              <form className="radio-group">
+                {[" Sneakers", " Running", " Open-toe", " Heels", " Boots"].map((style) => (
+                  <label key={style}>
+                    <input
+                      type="radio"
+                      name="styleoptions"
+                      value={style}
+                      checked={selectedStyle === style}
+                      onChange={(e) => setSelectedStyle(e.target.value)}
+                    />
+                    {style}
+                  </label>
+                ))}
+              </form>
+            )}
+          </div>
+
+          {/* Column 3: Vibe */}
+          <div className="catalogcolumn3">
+            <h3>Vibe</h3>
+            <form className="checkbox-group">
+              {[" Party", " Casual", " Formal", " Gym"].map((vibe) => (
+                <label key={vibe}>
+                  <input
+                    type="checkbox"
+                    value={vibe.toLowerCase()}
+                    checked={selectedVibes.includes(vibe.toLowerCase())}
+                    onChange={handleVibeChange}
+                  />
+                  {vibe}
+                </label>
+              ))}
+            </form>
+          </div>
+
+          {/* Column 4: Color Selection */}
+          <div className="catalogcolumn4">
+            <h3>Color</h3>
+            <div id="cp5d">
+              <div className="input-group">
                 <input
-                  type="radio"
-                  name="typeoptions"
-                  value={type}
-                  checked={selectedType === type}
-                  onChange={(e) => {
-                    setSelectedType(e.target.value);
-                    setSelectedStyle(""); // Reset style selection when type changes
-                  }}
+                  type="text"
+                  className="form-control input-lg"
+                  defaultValue="rgb(203, 38, 192)"
+                  disabled
                 />
-                {type}
-              </label>
-            ))}
-          </form>
-        </div>
-
-        {/* Column 2: Style Selection (Appears Dynamically) */}
-        <div className="catalogcolumn2">
-          <h3>Style</h3>
-          {selectedType === " Top" && (
-            <form className="radio-group">
-              {[" T-shirt", " Long Sleeve", " Collared shirt", " Tank Top", " Crop Top"].map((style) => (
-                <label key={style}>
-                  <input
-                    type="radio"
-                    name="styleoptions"
-                    value={style}
-                    checked={selectedStyle === style}
-                    onChange={(e) => setSelectedStyle(e.target.value)}
-                  />
-                  {style}
-                </label>
-              ))}
-            </form>
-          )}
-
-          {selectedType === " Outerwear" && (
-            <form className="radio-group">
-              {[" Sweatshirt", " Sweater", " Jacket", " Coat", " Cardigan"].map((style) => (
-                <label key={style}>
-                  <input
-                    type="radio"
-                    name="styleoptions"
-                    value={style}
-                    checked={selectedStyle === style}
-                    onChange={(e) => setSelectedStyle(e.target.value)}
-                  />
-                  {style}
-                </label>
-              ))}
-            </form>
-          )}
-
-          {selectedType === " Bottoms" && (
-            <form className="radio-group">
-              {[" Pants", " Shorts", " Skirt", " Leggings"].map((style) => (
-                <label key={style}>
-                  <input
-                    type="radio"
-                    name="styleoptions"
-                    value={style}
-                    checked={selectedStyle === style}
-                    onChange={(e) => setSelectedStyle(e.target.value)}
-                  />
-                  {style}
-                </label>
-              ))}
-            </form>
-          )}
-
-          {selectedType === " Shoes" && (
-            <form className="radio-group">
-              {[" Sneakers", " Running", " Open-toe", " Heels", " Boots"].map((style) => (
-                <label key={style}>
-                  <input
-                    type="radio"
-                    name="styleoptions"
-                    value={style}
-                    checked={selectedStyle === style}
-                    onChange={(e) => setSelectedStyle(e.target.value)}
-                  />
-                  {style}
-                </label>
-              ))}
-            </form>
-          )}
-        </div>
-
-        {/* Column 3: Vibe */}
-        <div className="catalogcolumn3">
-          <h3>Vibe</h3>
-          <form className="checkbox-group">
-            {[" Party", " Casual", " Formal"].map((vibe) => (
-              <label key={vibe}>
-                <input
-                  type="checkbox"
-                  value={vibe.toLowerCase()}
-                  checked={selectedVibes.includes(vibe.toLowerCase())}
-                  onChange={handleVibeChange}
-                />
-                {vibe}
-              </label>
-            ))}
-          </form>
-        </div>
-
-        {/* Column 4: Color Selection */}
-        <div className="catalogcolumn4">
-          <h3>Color</h3>
-          <div id="cp5d">
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control input-lg"
-                defaultValue="rgb(203, 38, 192)"
-                disabled
-              />
+              </div>
             </div>
           </div>
         </div>

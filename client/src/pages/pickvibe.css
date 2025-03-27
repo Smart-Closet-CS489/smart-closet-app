@@ -1,12 +1,16 @@
-.container {
+.vibecontainer {
   display: flex;
   justify-content: center;
   width: 100vh;
   gap: 0em;
   flex-grow: 1;
   align-items: center;
-  padding: 0 40px;
 }
+
+/* .pickers {
+  display: flex;
+  justify-content: center;
+} */
 
 .column1,
 .column2,
@@ -14,8 +18,8 @@
   flex: 1;
   /* Each column takes equal space */
   background-color: rgb(226, 226, 226);
-  width: 21em;
-  height: 25em;
+  width: 0em;
+  height: 20em;
   margin: 10px;
   padding: 10px 30px;
   text-align: center;
@@ -31,4 +35,11 @@
   border-radius: 10px;
   margin: 10px;
   font-size: 15px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column; /* stack radio buttons vertically */
+  align-items: flex-start; /* align to the left */
+  gap: 10px; /* space between radio buttons */
 }
