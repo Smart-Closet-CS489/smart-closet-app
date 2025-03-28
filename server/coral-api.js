@@ -67,28 +67,28 @@ async function trainAndCompileModel(modelNames) { //change to account for busy w
  */
 async function deleteModel(modelName) {
     try {
-      const response = await axios.delete(`${baseUrl}/models/${modelName}`);
-      return response.data;
+        const response = await axios.delete(`${baseUrl}/models/${modelName}`);
+        return response.data;
     } catch (error) {
-      console.error('Error deleting model:', error);
-      throw error;
+        console.error('Error deleting model:', error);
+        throw error;
     }
-  }
-  
-  /**
-   * @param {string} modelName
-   * @returns {Promise<Object>}
-   * @throws {Error}
-   */
-  async function getModelInfo(modelName) {
+}
+
+/**
+ * @param {string} modelName
+ * @returns {Promise<Object>}
+ * @throws {Error}
+ */
+async function getModelInfo(modelName) {
     try {
-      const response = await axios.get(`${baseUrl}/models/${modelName}`);
-      return response.data;
+        const response = await axios.get(`${baseUrl}/models/${modelName}`);
+        return response.data;
     } catch (error) {
-      console.error('Error getting model info:', error);
-      throw error;
+        console.error('Error getting model info:', error);
+        throw error;
     }
-  }
+}
 
 module.exports = {
     createModel,
@@ -96,6 +96,3 @@ module.exports = {
     deleteModel,
     getModelInfo
 };
-
-
-
