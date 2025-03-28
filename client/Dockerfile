@@ -11,6 +11,3 @@ RUN npm run build
 
 # Expose the port the app runs on
 EXPOSE 8000
-
-# Start the server
-CMD ["node", "server.js"]
