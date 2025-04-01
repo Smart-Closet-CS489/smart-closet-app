@@ -20,9 +20,9 @@
   /* Each column takes equal space */
   background-color: rgb(226, 226, 226);
   width: 15em;
-  height: 15em;
+  height: 24em;
   margin: 10px;
-  padding: 10px 30px;
+  padding: 30px 30px;
   text-align: center;
   border-radius: 10px;
 }
@@ -34,11 +34,10 @@
   /* stack radio buttons vertically */
   align-items: flex-start;
   /* align to the left */
-  gap: 10px;
+  gap: 20px;
   /* space between radio buttons */
   margin-left: -10px;
-  font-size: 12px;
-
+  font-size: 17px;
 }
 
 .checkbox-group {
@@ -47,9 +46,10 @@
   /* stack buttons vertically */
   align-items: flex-start;
   /* align to the left */
-  gap: 10px;
-  font-size: 12px;
+  gap: 20px;
+  font-size: 17px;
   margin-left: -10px;
+  margin-top: 30px;
 }
 
 .backbutton {
@@ -58,7 +58,7 @@
   text-align: center;
   padding: 10px 15px;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 20px;
 }
 
 .photobutton {
@@ -66,7 +66,7 @@
   text-align: center;
   padding: 10px 15px;
   border-radius: 10px;
-  font-size: 15px;
+  font-size:20px;
   cursor: not-allowed; /* Default cursor */
   background-color: rgb(226, 226, 226); /* Default grey */
   color: black;
@@ -101,4 +101,9 @@
 
 #cp5d .colorpicker {
   padding: 7px; /* Reduce padding */
+}
+
+
+.colorpicker-bar {
+  height: 120px !important; /* Adjust height as needed */
 }
