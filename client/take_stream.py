@@ -34,6 +34,8 @@ class StreamingOutput(io.BufferedIOBase):
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
     def do_GET(self):
+
+        # Display stream
         if self.path == '/stream.mjpg':
             self.send_response(200)
             self.send_header('Age', 0)
@@ -60,6 +62,34 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                 logging.warning(
                     'Removed streaming client %s: %s',
                     self.client_address, str(e))
+
+         # Display only the photo after taking it
+         if self.path == '/photo.jpg':
+            self.send_response(200)
+            self.send_header('Age', 0)
+            self.send_header('Cache-Control', 'no-cache, private')
+            self.send_header('Pragma', 'no-cache')
+            self.send_header('Content-Type', 'multipart/x-mixed-replace; boundary=FRAME')
+            self.end_headers()
+            try:
+                     with output.condition:
+                        output.condition.wait()
+                        frame = output.frame
+                  
+                    self.wfile.write(b'--FRAME\r\n')
+                    self.send_header('Content-Type', 'image/jpeg')
+                    self.send_header('Content-Length', len(frame))
+                    self.end_headers() 
+                    self.wfile.write(frame)
+                    picam2.capture_file("photo_from_stream.jpg")
+                    self.wfile.write(b'\r\n')
+
+            except Exception as e:
+                logging.warning(
+                    'Removed streaming client %s: %s',
+                    self.client_address, str(e))
+
+
         else:
             self.send_error(404)
             self.end_headers() 
