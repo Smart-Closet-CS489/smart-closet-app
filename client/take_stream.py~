@@ -7,7 +7,8 @@ from threading import Condition
 from picamera2 import Picamera2
 from picamera2.encoders import JpegEncoder
 from picamera2.outputs import FileOutput
-
+#import keyboard
+ 
 PAGE = """\
 <html>
 <head>
@@ -53,13 +54,16 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                     self.send_header('Content-Length', len(frame))
                     self.end_headers() 
                     self.wfile.write(frame)
+                    # if keyboard.is_pressed('p'):
+                    #    print("you pressed a key!")
+                    #    picam2.capture_file("photo_from_stream.jpg")
                     self.wfile.write(b'\r\n')
             except Exception as e:
                 logging.warning(
                     'Removed streaming client %s: %s',
                     self.client_address, str(e))
 
-        # Display only the photo after taking it
+         # Display only the photo after taking it
         if self.path == '/photo.jpg':
             self.send_response(200)
             self.send_header('Age', 0)
@@ -77,7 +81,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                 self.send_header('Content-Length', len(frame))
                 self.end_headers() 
                 self.wfile.write(frame)
-                # picam2.capture_file("photo_from_stream.jpg")
+                picam2.capture_file("photo_from_stream.jpg")
                 self.wfile.write(b'\r\n')
 
             except Exception as e:
