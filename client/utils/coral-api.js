@@ -25,12 +25,11 @@ async function generateOutfit() {
 }
 
 /**
- * @returns {Promise<>}
+ * @returns {Promise<Object>}
  *
- * }
  */
 async function giveFeedback() {
-
+    
 }
 
 
