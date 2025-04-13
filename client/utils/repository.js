@@ -1,60 +1,136 @@
-const fs = require('fs/promises');
-const { getJsonFile, putJsonFile } = require('./file_system_helper');
-
-// Function to generate a new ID
-async function newId() {
-    try {
-        const data = await fs.readFile('/home/shared/data/json-data/current_id.json', 'utf8');
-        let lastId = parseInt(data.trim());
-        lastId++;
-        await fs.writeFile('/home/shared/data/json-data/current_id.json', lastId.toString());
-        return lastId;
-    } catch (error) {
-        console.error('Error reading or writing lastId:', error);
-        throw error;
-    }
-}
+const {
+    getJsonFile,
+    putJsonFile,
+    writeImage,
+    getImageUrl,
+    getNextId,
+  } = require('./fileSystemHelper');
+  
 
 /*
 {
-    "category": "Top",
-    "style": "Casual",
+    "category": "tops",
+    "style": "t-shirt",
     "color": {
         "R": 255,
         "G": 0, 
         "B": 0},
-    "vibes": ["Casual", "Formal"],
-    "imageId": 23
+    "vibes": ["casual", "formal"],
 }
 */
 async function createClothingArticle(clothingJson) {
-    
+    try {
+      const data = await getJsonFile(clothingJson.category + '.json');
+      const clothingId = await getNextId();
+      const newClothingData = {
+        id: clothingId,
+        style: clothingJson.style,
+        color: {
+          R: clothingJson.color.R,
+          G: clothingJson.color.G,
+          B: clothingJson.color.B,
+        },
+        vibes: clothingJson.vibes,
+      };
+      
+      data[String(clothingId)] = newClothingData;
+      await putJsonFile(clothingJson.category + '.json', data);
+      await writeImage(`${clothingId}.jpg`);
+      console.log('Successfully added new clothing article to', clothingJson.category + '.json');
+    } catch (err) {
+      console.error('Failed to add clothing article:', err.message);
+    }
 }
 
-// (async () => {
-//     try {
-//       const data = await getJsonFile('tops.json');
-//       console.log('Original data:', data);
+async function getOutfitById(id) {
+    try {
+        let vibes = ['casual', 'formal', 'party', 'athletic'];
+        for (let vibe of vibes) {
+            const data = await getJsonFile(vibe + '_outfits.json');
+            if (data[String(id)]) {
+                return data[String(id)];
+            }
+        }
+    } catch (err) {
+        console.error('Failed to retrieve outfit:', err.message);
+        return null;
+    }
+}
+
+async function getInferenceSampleByVibe(vibe) {
+    try {
+        const data = await getJsonFile(`${vibe}_outfits.json`);
+        const outfits = Object.values(data);
+        const sampleSize = Math.max(1, Math.min(1000, Math.floor(outfits.length * 0.2)));
+        for (let i = outfits.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [outfits[i], outfits[j]] = [outfits[j], outfits[i]];
+          }
+          
+        const sampledOutfits = outfits.slice(0, sampleSize);
+        return sampledOutfits;
+    } catch (err) {
+        console.error('Failed to retrieve inference sample:', err.message);
+        return null;
+    }
+}
+
+async function getImageUrlsByOutfitId(id) {
+    try {
+        let outfit = await getOutfitById(id);
+        return {
+            top_url: getImageUrl(`${outfit.top_id}.jpg`),
+            outerwear_url: getImageUrl(`${outfit.outerwear_id}.jpg`),
+            bottom_url: getImageUrl(`${outfit.bottom_id}.jpg`),
+            shoes_url: getImageUrl(`${outfit.shoes_id}.jpg`)
+        }
+    } catch (err) {
+        console.error('Failed to retrieve image URLs:', err.message);
+        return null;
+    }
+}
+
+module.exports = {
+    createClothingArticle,
+    getOutfitById,
+    getInferenceSampleByVibe,
+};
+
+
+
   
-//       // Modify and save
-//       data.updatedBy = 'your-awesome-app';
-//       await putJsonFile('tops.json', data);
-//     } catch (err) {
-//       console.error('Something went wrong:', err.message);
+//   const testClothing = {
+//     category: 'tops',
+//     style: 't-shirt',
+//     color: { R: 255, G: 0, B: 0 },
+//     vibes: ['casual', 'formal'],
+//   };
+  
+//   createClothingArticle(testClothing);
+
+
+// async function test() {
+//     const testId = 1; // <-- change this to test different IDs
+//     const outfit = await getOutfitById(testId);
+  
+//     if (outfit) {
+//       console.log(`Outfit ID ${testId} found:`, outfit);
+//     } else {
+//       console.log(`Outfit ID ${testId} not found in any vibe.`);
+//     }
+//   }
+  
+//   test();
+
+
+// (async () => {
+//     const vibe = 'athletic'; // try 'formal', 'party', etc. if available
+//     const sample = await getInferenceSampleByVibe(vibe);
+  
+//     if (sample) {
+//       console.log(`Retrieved ${sample.length} outfit(s) for vibe "${vibe}":`);
+//       console.dir(sample, { depth: null });
+//     } else {
+//       console.log(`No outfits found for vibe "${vibe}".`);
 //     }
 //   })();
-
-(async () => {
-  const newData = {
-    items: ['tshirt', 'sweater', 'hoodie'],
-    updatedAt: new Date().toISOString(),
-    source: 'test script'
-  };
-
-  try {
-    await putJsonFile('tops.json', newData);
-    console.log('Successfully overwrote tops.json with test data.');
-  } catch (err) {
-    console.error('Failed to overwrite tops.json:', err.message);
-  }
-})();
