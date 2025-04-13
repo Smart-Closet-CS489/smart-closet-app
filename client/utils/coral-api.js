@@ -1,6 +1,8 @@
-import { getOutfitByID, getClothingByID } from './repository';
+import { getOutfitByID } from './repository';
 import { getJsonFile, putJsonFile } from './fileSystemHelper';
 import { getWeather } from './weather-api';
+
+const axios = require('axios');
 
 const baseUrl = 'http://localhost:5000'
 
@@ -9,14 +11,62 @@ const baseUrl = 'http://localhost:5000'
  *
  */
 async function createModels() {
+    const models = [
+      {
+        model_name: "color_model",
+        input_size: 12,
+        hidden_sizes: [48, 48],
+        output_size: 1,
+        model_type: "regression",
+        memory_size: 1000
+      },
+      {
+        model_name: "weather_model",
+        input_size: 21,
+        hidden_sizes: [64, 64, 64],
+        output_size: 1,
+        model_type: "regression",
+        memory_size: 1000
+      },
+      {
+        model_name: "style_model",
+        input_size: 20,
+        hidden_sizes: [64, 64, 64],
+        output_size: 1,
+        model_type: "regression",
+        memory_size: 1000
+      }
+    ];
+  
     try {
-        await axios.get(`${baseUrl}/models/${modelData.model_name}`);
-        console.log(`Model "${modelData.model_name}" already exists; skipping creation.`);
-        return { message: `Model "${modelData.model_name}" already exists.` };
-    } catch (error) {
-        
+      await Promise.all(models.map(async (modelData) => {
+        try {
+          await axios.get(`${baseUrl}/models/${modelData.model_name}`);
+          console.log(`Model "${modelData.model_name}" already exists; skipping creation.`);
+        } catch (error) {
+          if (error.response && error.response.status === 404) {
+            try {
+              const response = await axios.post(`${baseUrl}/models`, modelData);
+              if (response) {
+                console.log(`Model "${modelData.model_name}" created successfully.`);
+              }
+            } catch (creationError) {
+              console.error(`Error creating model "${modelData.model_name}":`, creationError.message);
+              throw creationError;
+            }
+          } else {
+            console.error(`Error checking existence for model "${modelData.model_name}":`, error.message);
+            throw error;
+          }
+        }
+      }));
+      return true;
+
+    } catch (err) {
+      console.error('Error in createModels:', err.message);
+      throw err;
     }
-}
+  }
 
 /**
  * @returns {Promise<Boolean>}
@@ -227,3 +277,10 @@ export async function giveFeedback(outfitId, scores) {
     }
   }
 
+module.exports = {
+    createModels,
+    deleteModel,
+    getModelInfo,
+    giveFeedback,
+    generateOutfit,
+};
