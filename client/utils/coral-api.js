@@ -1,6 +1,6 @@
 import { getOutfitByID, getClothingByID } from './repository';
 import { getJsonFile, putJsonFile } from './fileSystemHelper';
-
+import { getWeather } from './weather-api';
 
 const baseUrl = 'http://localhost:5000'
 
@@ -60,8 +60,8 @@ async function getModelInfo(modelName) {
     }
 }
 
-const WEATHER_BUFFER_FILE = 'weather_buffer.json';
 const COLOR_BUFFER_FILE   = 'color_buffer.json';
+const WEATHER_BUFFER_FILE = 'weather_buffer.json';
 const TYPE_BUFFER_FILE    = 'type_buffer.json';
 
 /**
@@ -73,18 +73,6 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-/**
- * helper to parse clothing items into input feature arrays for each model
- * @param {Array<Object>} clothingItems
- * @returns {{ weatherInput: number[], colorInput: number[], typeInput: number[] }}
- */
-function parseInputsForModels(clothingItems) {
-  return {
-    weatherInput: Array(21).fill(0).map(() => Math.random() * 100),
-    colorInput:   Array(12).fill(0).map(() => Math.floor(Math.random() * 256)),
-    typeInput:    Array(20).fill(0).map(() => Math.random() * 10)
-  };
-}
 
 /**
  * reads a JSON buffer file (returns [] for errors or in case the file doesn't exist)
@@ -134,7 +122,7 @@ async function takePairs(filename, count) {
  * @returns {Promise<boolean>}
  */
 async function isTrainingSessionActive(modelName) {
-  const response = await fetch(`${BASE_URL}/models/${modelName}/training-session`);
+  const response = await fetch(`${baseUrl}/models/${modelName}/training-session`);
   const data = await response.json();
   return data.training_session_active;
 }
@@ -146,7 +134,7 @@ async function isTrainingSessionActive(modelName) {
  * @returns {Promise<any>}
  */
 async function callTrainingSession(modelName, trainingData) {
-  const response = await fetch(`${BASE_URL}/models/${modelName}/training-session`, {
+  const response = await fetch(`${baseUrl}/models/${modelName}/training-session`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(trainingData)
@@ -180,59 +168,63 @@ async function compileModels(modelNames) {
  * @param {number[]} scores
  */
 export async function giveFeedback(outfitId, scores) {
-  try {
-    const outfit = await getOutfitByID(outfitId);
-    const clothingIds = outfit.items;
-    const clothingItems = await Promise.all(clothingIds.map(id => getClothingByID(id)));
+    try {
+      const outfit = await getOutfitByID(outfitId);
 
-    // parse clothing items into arrays for each model
-    const { weatherInput, colorInput, typeInput } = parseInputsForModels(clothingItems);
-
-    // map scores to models (order: color, weather, type)
-    await appendToFile(COLOR_BUFFER_FILE, { input: colorInput, output: scores[0] });
-    await appendToFile(WEATHER_BUFFER_FILE, { input: weatherInput, output: scores[1] });
-    await appendToFile(TYPE_BUFFER_FILE, { input: typeInput, output: scores[2] });
-
-    // check each buffer for at least six training pairs.
-    const colorBuffer   = await readBuffer(COLOR_BUFFER_FILE);
-    const weatherBuffer = await readBuffer(WEATHER_BUFFER_FILE);
-    const typeBuffer    = await readBuffer(TYPE_BUFFER_FILE);
-
-    if (colorBuffer.length >= 6 && weatherBuffer.length >= 6 && typeBuffer.length >= 6) {
-      // wait until no active training session is found for any model
-      while (
-        await isTrainingSessionActive('color_model') ||
-        await isTrainingSessionActive('weather_model') ||
-        await isTrainingSessionActive('type_model')
-      ) {
-        await delay(2000);
+      // creating field for weather neurons
+      const weatherData = await getWeather();
+      const temp = weatherData.temperature;
+      const normalizedTemp = temp / 100; // converting to 0-1 scale
+  
+      outfit.weather_neurons = [...outfit.style_neurons, normalizedTemp];
+  
+      // the scores array is ordered as: [color, weather, type]
+      await appendToFile(COLOR_BUFFER_FILE, { input: outfit.color_neurons, output: scores[0] });
+      await appendToFile(WEATHER_BUFFER_FILE, { input: outfit.weather_neurons, output: scores[1] });
+      await appendToFile(TYPE_BUFFER_FILE, { input: outfit.style_neurons, output: scores[2] });
+  
+      // check if all buffers contain at least 6 training pairs
+      const colorBuffer   = await readBuffer(COLOR_BUFFER_FILE);
+      const weatherBuffer = await readBuffer(WEATHER_BUFFER_FILE);
+      const typeBuffer    = await readBuffer(TYPE_BUFFER_FILE);
+  
+      if (colorBuffer.length >= 6 && weatherBuffer.length >= 6 && typeBuffer.length >= 6) {
+        // busy-wait until no training session is active for any model
+        while (
+          await isTrainingSessionActive('color_model') ||
+          await isTrainingSessionActive('weather_model') ||
+          await isTrainingSessionActive('type_model')
+        ) {
+          await delay(2000);
+        }
+  
+        // retrieve 6 training pairs from each buffer
+        const colorData   = await takePairs(COLOR_BUFFER_FILE, 6);
+        const weatherDataBuffered = await takePairs(WEATHER_BUFFER_FILE, 6);
+        const typeData    = await takePairs(TYPE_BUFFER_FILE, 6);
+  
+        // trigger training sessions concurrently
+        await Promise.all([
+          callTrainingSession('color_model', colorData),
+          callTrainingSession('weather_model', weatherDataBuffered),
+          callTrainingSession('type_model', typeData)
+        ]);
+  
+        // busy-wait until all training sessions have completed
+        while (
+          await isTrainingSessionActive('color_model') ||
+          await isTrainingSessionActive('weather_model') ||
+          await isTrainingSessionActive('type_model')
+        ) {
+          await delay(2000);
+        }
+  
+        // finally, trigger the co–compile endpoint for the three models
+        await compileModels(['color_model', 'weather_model', 'type_model']);
       }
-
-      // retrieve six training pairs from each buffer
-      const colorData   = await takePairs(COLOR_BUFFER_FILE, 6);
-      const weatherData = await takePairs(WEATHER_BUFFER_FILE, 6);
-      const typeData    = await takePairs(TYPE_BUFFER_FILE, 6);
-
-      // trigger training sessions concurrently
-      await Promise.all([
-        callTrainingSession('color_model', colorData),
-        callTrainingSession('weather_model', weatherData),
-        callTrainingSession('type_model', typeData)
-      ]);
-
-      // wait until all training sessions have finished
-      while (
-        await isTrainingSessionActive('color_model') ||
-        await isTrainingSessionActive('weather_model') ||
-        await isTrainingSessionActive('type_model')
-      ) {
-        await delay(2000);
-      }
-
-      // call the co-compile endpoint
-      await compileModels(['color_model', 'weather_model', 'type_model']);
+    } catch (error) {
+      console.error('Error in giveFeedback:', error);
     }
-  } catch (error) {
-    console.error('Error in giveFeedback:', error);
   }
-}
+
+  
