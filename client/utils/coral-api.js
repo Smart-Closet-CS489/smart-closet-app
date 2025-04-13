@@ -166,6 +166,7 @@ async function compileModels(modelNames) {
  * @param {number} outfitId
  * @param {number[]} scores
  */
+
 export async function giveFeedback(outfitId, scores) {
     try {
       const outfit = await getOutfitByID(outfitId);
