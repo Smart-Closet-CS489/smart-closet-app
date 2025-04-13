@@ -7,7 +7,6 @@ const baseUrl = 'http://localhost:5000'
 /**
  * @returns {Promise<Boolean>}
  *
- * }
  */
 async function createModels() {
     try {
@@ -62,7 +61,7 @@ async function getModelInfo(modelName) {
 
 const COLOR_BUFFER_FILE   = 'color_buffer.json';
 const WEATHER_BUFFER_FILE = 'weather_buffer.json';
-const TYPE_BUFFER_FILE    = 'type_buffer.json';
+const STYLE_BUFFER_FILE    = 'style_buffer.json';
 
 /**
  * helper to delay for given number of seconds
@@ -181,12 +180,12 @@ export async function giveFeedback(outfitId, scores) {
       // the scores array is ordered as: [color, weather, type]
       await appendToFile(COLOR_BUFFER_FILE, { input: outfit.color_neurons, output: scores[0] });
       await appendToFile(WEATHER_BUFFER_FILE, { input: outfit.weather_neurons, output: scores[1] });
-      await appendToFile(TYPE_BUFFER_FILE, { input: outfit.style_neurons, output: scores[2] });
+      await appendToFile(STYLE_BUFFER_FILE, { input: outfit.style_neurons, output: scores[2] });
   
       // check if all buffers contain at least 6 training pairs
       const colorBuffer   = await readBuffer(COLOR_BUFFER_FILE);
       const weatherBuffer = await readBuffer(WEATHER_BUFFER_FILE);
-      const typeBuffer    = await readBuffer(TYPE_BUFFER_FILE);
+      const typeBuffer    = await readBuffer(STYLE_BUFFER_FILE);
   
       if (colorBuffer.length >= 6 && weatherBuffer.length >= 6 && typeBuffer.length >= 6) {
         // busy-wait until no training session is active for any model
@@ -201,7 +200,7 @@ export async function giveFeedback(outfitId, scores) {
         // retrieve 6 training pairs from each buffer
         const colorData   = await takePairs(COLOR_BUFFER_FILE, 6);
         const weatherDataBuffered = await takePairs(WEATHER_BUFFER_FILE, 6);
-        const typeData    = await takePairs(TYPE_BUFFER_FILE, 6);
+        const typeData    = await takePairs(STYLE_BUFFER_FILE, 6);
   
         // trigger training sessions concurrently
         await Promise.all([
@@ -227,4 +226,3 @@ export async function giveFeedback(outfitId, scores) {
     }
   }
 
-  
