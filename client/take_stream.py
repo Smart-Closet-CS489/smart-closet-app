@@ -20,6 +20,8 @@ PAGE = """\
 </html>
 """
 
+streaming_active = True # flag to keep track when we have to pause streaming
+
 class StreamingOutput(io.BufferedIOBase):
     def __init__(self):
         self.frame = None
@@ -33,7 +35,9 @@ class StreamingOutput(io.BufferedIOBase):
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
     def do_GET(self):
-
+        global streaming_active
+        print(self.path)
+        print("streaming resumed")
         # Display stream
         if self.path == '/stream.mjpg':
             self.send_response(200)
@@ -43,24 +47,36 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.send_header('Content-Type', 'multipart/x-mixed-replace; boundary=FRAME')
             self.end_headers()
             try:
-                while True:
+                while streaming_active:
                     with output.condition:
                         output.condition.wait()
                         frame = output.frame
-                  
+
                     self.wfile.write(b'--FRAME\r\n')
                     self.send_header('Content-Type', 'image/jpeg')
                     self.send_header('Content-Length', len(frame))
                     self.end_headers() 
                     self.wfile.write(frame)
+                    # picam2.capture_file("photo_from_stream.jpg")
                     self.wfile.write(b'\r\n')
+
+                self.wfile.write(b'--FRAME\r\n')
+                self.send_header('Content-Type', 'image/jpeg')
+                self.send_header('Content-Length', len(frame))
+                self.end_headers() 
+                self.wfile.write(frame)
+                # picam2.capture_file("photo_from_stream.jpg")
+                self.wfile.write(b'\r\n')
+
             except Exception as e:
                 logging.warning(
                     'Removed streaming client %s: %s',
                     self.client_address, str(e))
-        
+                
         # Display only the photo after taking it
         if self.path == '/photo.jpg':
+            print("take photo")
+            streaming_active = False  
             self.send_response(200)
             self.send_header('Age', 0)
             self.send_header('Cache-Control', 'no-cache, private')
@@ -83,18 +99,19 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                 self.send_header('Content-Length', len(frame))
                 self.end_headers() 
                 self.wfile.write(frame)
-                # picam2.capture_file("photo_from_stream.jpg")
+                picam2.capture_file("photo_from_stream.jpg")
                 self.wfile.write(b'\r\n')
                 self.send_error(200)
                 self.end_headers() 
-              
+                streaming_active = True             
 
             except Exception as e:
                 logging.warning(
                     'Removed streaming client %s: %s',
-                    self.client_address, str(e))
-
+                    self.client_address, str(e)) 
+            
         else:
+            print(self.path)
             self.send_error(404)
             self.end_headers() 
 
