@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Jua&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 .App {
   text-align: center;
 }
@@ -12,6 +14,19 @@
   font-size: 30px;
 }
 
+.maintitle{
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 60px;
+}
+
+.maintitle2{
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 30px;
+}
 
 .App-Centering{
   min-height: 100vh;

@@ -12,6 +12,11 @@
   justify-content: center;
 }
 
+.h3 {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 .catalogcolumn1,
 .catalogcolumn2,
 .catalogcolumn3,

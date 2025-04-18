@@ -57,7 +57,7 @@ function Catalog() {
           {/* Column 1: Type Selection */}
           <div className="catalogcolumn1">
 
-            <h3>Type</h3>
+            <h3 className = "maintitle2">Type</h3>
             <form className="radio-group">
               {[" Top", " Outerwear", " Bottoms", " Shoes"].map((type) => (
                 <label key={type}>
@@ -79,7 +79,7 @@ function Catalog() {
 
           {/* Column 2: Style Selection (appears iff type selected) */}
           <div className="catalogcolumn2">
-            <h3>Style</h3>
+            <h3 className = "maintitle2">Style</h3>
             {selectedType === " Top" && (
               <form className="radio-group">
                 {[" T-shirt", " Long Sleeve", " Collared shirt", " Tank Top", " Crop Top"].map((style) => (
@@ -151,7 +151,7 @@ function Catalog() {
 
           {/* Column 3: Vibe */}
           <div className="catalogcolumn3">
-            <h3>Vibe</h3>
+            <h3 className = "maintitle2">Vibe</h3>
             <form className="checkbox-group">
               {[" Party", " Casual", " Formal", " Gym"].map((vibe) => (
                 <label key={vibe}>
@@ -169,7 +169,7 @@ function Catalog() {
 
           {/* Column 4: Color Selection */}
           <div className="catalogcolumn4">
-            <h3>Color</h3>
+            <h3 className = "maintitle2">Color</h3>
             <div id="cp5d">
               <div className="input-group">
                 <input
@@ -188,7 +188,7 @@ function Catalog() {
           <button className="backbutton" type="button">Back</button>
         </Link>
 
-        {/* Take Photo Button */}
+        {/* photo button */}
         <Link to={isComplete ? "/takephoto" : "#"} onClick={(e) => !isComplete && e.preventDefault()}>
           <button className={`photobutton ${isComplete ? "enabled" : "disabled"}`} type="button" disabled={!isComplete}>
             Take Photo!

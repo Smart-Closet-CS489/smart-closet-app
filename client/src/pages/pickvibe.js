@@ -1,6 +1,7 @@
 import './pickvibe.css';
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+// import { getWeather } from '../../utils/weather-api'
 
 function PickVibe() {
 	const [selectedVibe, setSelectedVibe] = useState("");
@@ -11,7 +12,7 @@ function PickVibe() {
 			<div className="container">
 				<div className="pickers">
 					<div className="column1">
-						<h3>Vibe</h3>
+						<h3 className = "maintitle2">Vibe</h3>
 						<form className="radio-group">
 							{[" Party", " Casual", " Formal", " Gym"].map((type) => (
 								<label key={type}>
@@ -30,7 +31,7 @@ function PickVibe() {
 						</form>
 					</div>
 					<div className="column3">
-						<h3>Current Weather</h3>
+						<h3 className = "maintitle2">Current Weather</h3>
 					</div>
 				</div>
 			</div>

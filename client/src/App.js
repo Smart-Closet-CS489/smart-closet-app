@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App-Centering">
       <div className="App">
-        <h1> Smart Closet </h1>
+        <h1 className='maintitle'> Smart Closet </h1>
         <div>
           <Link to="/catalog">
             <button className="button" type="button">Add Clothing</button>
