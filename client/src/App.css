@@ -4,6 +4,10 @@
   text-align: center;
 }
 
+.body {
+    background-color: #f7f3ed;
+}
+
 .button {
   border: none;
   background-color: #FFE5EC;
@@ -12,6 +16,7 @@
   border-radius: 10px;
   margin: 10px;
   font-size: 30px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
 }
 
 .maintitle{
@@ -26,6 +31,11 @@
   font-weight: 400;
   font-style: normal;
   font-size: 30px;
+}
+
+.App-background {
+  height: 100vh;
+  background-color: #f5f4f2;
 }
 
 .App-Centering{

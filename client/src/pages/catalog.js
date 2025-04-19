@@ -51,7 +51,7 @@ function Catalog() {
   const isComplete = selectedType && selectedStyle && selectedVibes.length > 0 && selectedColor;
 
   return (
-    <div>
+    <div className="App-background">
       <div className="pickers">
         <div className="catalogcontainer">
           {/* Column 1: Type Selection */}
@@ -191,7 +191,8 @@ function Catalog() {
         {/* photo button */}
         <Link to={isComplete ? "/takephoto" : "#"} onClick={(e) => !isComplete && e.preventDefault()}>
           <button className={`photobutton ${isComplete ? "enabled" : "disabled"}`} type="button" disabled={!isComplete}>
-            Take Photo!
+            Take Photo!  
+            <img src="/white_cam.png" alt="" className="digital_cam" />
           </button>
         </Link>
       </div>

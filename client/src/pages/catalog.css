@@ -23,13 +23,15 @@
 .catalogcolumn4 {
   flex: 1;
   /* Each column takes equal space */
-  background-color: rgb(226, 226, 226);
+  /* background-color: rgb(226, 226, 226); */
   width: 15em;
   height: 24em;
   margin: 10px;
   padding: 30px 30px;
   text-align: center;
   border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
 }
 
 
@@ -55,6 +57,14 @@
   font-size: 17px;
   margin-left: -10px;
   margin-top: 30px;
+    accent-color: #f5b4c5; /* Any color you want */
+
+}
+
+.digital_cam {
+  padding-left: 10px;
+  width: 70px;
+  height: 40px
 }
 
 .backbutton {
@@ -64,6 +74,7 @@
   padding: 10px 15px;
   border-radius: 10px;
   font-size: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
 }
 
 .photobutton {
@@ -74,11 +85,14 @@
   font-size:20px;
   cursor: not-allowed; /* Default cursor */
   background-color: rgb(226, 226, 226); /* Default grey */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
   color: black;
 }
 
 .photobutton.enabled {
-  background-color: #FFE5EC;
+  background-color: #faeece;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
+
   cursor: pointer;
 }
 

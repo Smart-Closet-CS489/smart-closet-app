@@ -1,14 +1,30 @@
 import './pickvibe.css';
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import { getWeather } from '../../utils/weather-api'
+import { getWeather } from '../utils/weather-api'
 
 function PickVibe() {
 	const [selectedVibe, setSelectedVibe] = useState("");
 	const isComplete = selectedVibe;
+	const [weather, setWeather] = useState(null);
+
+	useEffect(() => {
+	  async function fetchWeather() {
+		try {
+		  const data = await getWeather();
+		  setWeather(data);
+		} catch (err) {
+		  console.error('Error fetching weather:', err);
+		}
+	  }
+  
+	  fetchWeather();
+	}, []);
+
+	if (!weather) return <div>Loading weather data...</div>;
 
 	return (
-		<div>
+		<div className="App-background">
 			<div className="container">
 				<div className="pickers">
 					<div className="column1">
@@ -32,6 +48,7 @@ function PickVibe() {
 					</div>
 					<div className="column3">
 						<h3 className = "maintitle2">Current Weather</h3>
+						<h3> Temperature: {weather.temperature} </h3>
 					</div>
 				</div>
 			</div>

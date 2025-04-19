@@ -10,31 +10,34 @@ function TakePhoto() {
 		setIsPhotoShown(!isPhotoShown);
 	};
 
-    useEffect(() => {
-        const url = isPhotoShown
-        ? "http://localhost:7123/set-isstreaming-false"
-        : "http://localhost:7123/set-isstreaming-true";
+	useEffect(() => {
+		const url = isPhotoShown
+			? "http://localhost:7123/set-isstreaming-false"
+			: "http://localhost:7123/set-isstreaming-true";
 
-        fetch(url)
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    }, [isPhotoShown]);
+		fetch(url)
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}, [isPhotoShown]);
 
 	return (
-		<div className="entirepage">
-		                
-			<img  
-                                src={"http://localhost:7123/stream.mjpg"}
-		                alt="Camera Stream"
-			/> 
-		 
+		<div className="App-background">
 
-			<div className="camerabuttons">
-				<button className="camerabutton" type="button" onClick={handleTakePhoto}>
-					{isPhotoShown ? "Retry" : "Take Photo"}
-				</button>
-				<button className="camerabutton" type="button">Save</button>
+			<div className="entirepage">
+
+				<img
+					src={"http://localhost:7123/stream.mjpg"}
+					alt="Camera Stream"
+				/>
+
+
+				<div className="camerabuttons">
+					<button className="camerabutton" type="button" onClick={handleTakePhoto}>
+						{isPhotoShown ? "Retry" : "Take Photo"}
+					</button>
+					<button className="camerabutton" type="button">Save</button>
+				</div>
 			</div>
 		</div>
 	);
@@ -42,8 +45,8 @@ function TakePhoto() {
 
 // http://0.0.0.0:7123/stream.mjpg"/>i
 // 	<Link to="/catalog">
-				//<button className="backPhoto" type="button">Back</button>
-			// </Link>
+//<button className="backPhoto" type="button">Back</button>
+// </Link>
 export default TakePhoto;
 //src={isPhotoShown ? "http://localhost:7123/photo.jpg" : "http://localhost:7123/stream.mjpg"}
 

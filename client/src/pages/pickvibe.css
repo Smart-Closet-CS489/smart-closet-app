@@ -3,15 +3,15 @@
 .column3 {
   flex: 1;
   /* Each column takes equal space */
-  background-color: rgb(226, 226, 226);
+  background-color: white;
   width: 0em;
   height: 24em;
   margin: 10px;
   padding: 30px 30px;
   text-align: center;
   border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
 }
-
 
 /* .backbutton {
   border: none;
@@ -29,4 +29,7 @@
   align-items: flex-start; /* align to the left */
   gap: 20px; /* space between radio buttons */
   margin-top: 30px;
+  input[type="radio"] {
+    accent-color: #f5b4c5; /* Any color you want */
+  }
 }

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 function App() {
   return (
+    <div className="App-background">
     <div className="App-Centering">
       <div className="App">
         <h1 className='maintitle'> Smart Closet </h1>
@@ -17,6 +18,7 @@ function App() {
             <button className="button" type="button">Create Outfit</button>
           </Link>
         </div>
+      </div>
       </div>
     </div>
   );
