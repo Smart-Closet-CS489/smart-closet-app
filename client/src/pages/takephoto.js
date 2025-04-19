@@ -24,17 +24,15 @@ function TakePhoto() {
 	return (
 		<div className="entirepage">
 		                
-			<img    
+			<img  
                                 src={"http://localhost:7123/stream.mjpg"}
 		                alt="Camera Stream"
 			/> 
-			<Link to="/catalog">
-				<button className="backPhoto" type="button">Back</button>
-			</Link>
+		 
 
 			<div className="camerabuttons">
 				<button className="camerabutton" type="button" onClick={handleTakePhoto}>
-					{isPhotoShown ? "Retry" : "Take Photo!"}
+					{isPhotoShown ? "Retry" : "Take Photo"}
 				</button>
 				<button className="camerabutton" type="button">Save</button>
 			</div>
@@ -42,7 +40,10 @@ function TakePhoto() {
 	);
 }
 
-// http://0.0.0.0:7123/stream.mjpg"/>
+// http://0.0.0.0:7123/stream.mjpg"/>i
+// 	<Link to="/catalog">
+				//<button className="backPhoto" type="button">Back</button>
+			// </Link>
 export default TakePhoto;
 //src={isPhotoShown ? "http://localhost:7123/photo.jpg" : "http://localhost:7123/stream.mjpg"}
 
