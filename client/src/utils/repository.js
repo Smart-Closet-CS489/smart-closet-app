@@ -18,7 +18,7 @@ const {
     "vibes": ["casual", "formal"],
 }
 */
-async function createClothingArticle(clothingJson) {
+export async function createClothingArticle(clothingJson) {
     try {
       const data = await getJsonFile(clothingJson.category + '.json');
       const clothingId = await getNextId();
@@ -44,7 +44,7 @@ async function createClothingArticle(clothingJson) {
     }
 }
 
-async function getOutfitById(id) {
+export async function getOutfitById(id) {
     try {
         let vibes = ['casual', 'formal', 'party', 'athletic'];
         for (let vibe of vibes) {
@@ -59,7 +59,7 @@ async function getOutfitById(id) {
     }
 }
 
-async function getInferenceSampleByVibe(vibe) {
+export async function getInferenceSampleByVibe(vibe) {
     try {
         const data = await getJsonFile(`${vibe}_outfits.json`);
         const outfits = Object.values(data);
@@ -77,7 +77,7 @@ async function getInferenceSampleByVibe(vibe) {
     }
 }
 
-async function getImageUrlsByOutfitId(id) {
+export async function getImageUrlsByOutfitId(id) {
     try {
         let outfit = await getOutfitById(id);
         return {

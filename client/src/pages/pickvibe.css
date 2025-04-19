@@ -33,3 +33,10 @@
     accent-color: #f5b4c5; /* Any color you want */
   }
 }
+
+.image-item2 {
+  width: 70%;
+  height: 60%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
