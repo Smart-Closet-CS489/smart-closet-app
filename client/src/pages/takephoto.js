@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import './takephoto.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function TakePhoto() {
 	const [isPhotoShown, setIsPhotoShown] = useState(false);
@@ -10,12 +10,23 @@ function TakePhoto() {
 		setIsPhotoShown(!isPhotoShown);
 	};
 
+    useEffect(() => {
+        const url = isPhotoShown
+        ? "http://localhost:7123/set-isstreaming-false"
+        : "http://localhost:7123/set-isstreaming-true";
+
+        fetch(url)
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }, [isPhotoShown]);
+
 	return (
 		<div className="entirepage">
 		                
-			<img
-				src={isPhotoShown ? "http://localhost:7123/photo.jpg" : "http://localhost:7123/stream.mjpg"}
-				alt="Camera Stream"
+			<img    
+                                src={"http://localhost:7123/stream.mjpg"}
+		                alt="Camera Stream"
 			/> 
 			<Link to="/catalog">
 				<button className="backPhoto" type="button">Back</button>
@@ -33,3 +44,5 @@ function TakePhoto() {
 
 // http://0.0.0.0:7123/stream.mjpg"/>
 export default TakePhoto;
+//src={isPhotoShown ? "http://localhost:7123/photo.jpg" : "http://localhost:7123/stream.mjpg"}
+
