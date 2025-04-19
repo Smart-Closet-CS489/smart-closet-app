@@ -32,9 +32,6 @@ export async function createClothingArticle(clothingJson) {
         },
         vibes: clothingJson.vibes,
       };
-
-      
-      
       data[String(clothingId)] = newClothingData;
       await putJsonFile(clothingJson.category + '.json', data);
       await writeImage(`${clothingId}.jpg`);
