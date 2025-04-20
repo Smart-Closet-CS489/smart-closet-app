@@ -60,7 +60,7 @@ function Catalog() {
 
             <h3 className="maintitle2">Type</h3>
             <form className="radio-group">
-              {[" Top", " Outerwear", " Bottoms", " Shoes"].map((type) => (
+              {["Tops", "Outerwear", "Bottoms", "Shoes"].map((type) => (
                 <label key={type}>
                   <input
                     type="radio"
@@ -81,9 +81,9 @@ function Catalog() {
           {/* Column 2: Style Selection (appears iff type selected) */}
           <div className="catalogcolumn2">
             <h3 className="maintitle2">Style</h3>
-            {selectedType === " Top" && (
+            {selectedType === "Tops" && (
               <form className="radio-group">
-                {[" T-shirt", " Long Sleeve", " Collared shirt", " Tank Top", " Crop Top"].map((style) => (
+                {["T-shirt", "Long Sleeve", "Collared shirt", "Tank Top", "Crop Top"].map((style) => (
                   <label key={style}>
                     <input
                       type="radio"
@@ -98,9 +98,9 @@ function Catalog() {
               </form>
             )}
 
-            {selectedType === " Outerwear" && (
+            {selectedType === "Outerwear" && (
               <form className="radio-group">
-                {[" Sweatshirt", " Sweater", " Jacket", " Coat", " Cardigan"].map((style) => (
+                {["Sweatshirt", "Sweater", "Jacket", "Coat", "Cardigan"].map((style) => (
                   <label key={style}>
                     <input
                       type="radio"
@@ -115,9 +115,9 @@ function Catalog() {
               </form>
             )}
 
-            {selectedType === " Bottoms" && (
+            {selectedType === "Bottoms" && (
               <form className="radio-group">
-                {[" Pants", " Shorts", " Skirt", " Leggings"].map((style) => (
+                {["Pants", "Shorts", "Skirt", "Leggings"].map((style) => (
                   <label key={style}>
                     <input
                       type="radio"
@@ -132,9 +132,9 @@ function Catalog() {
               </form>
             )}
 
-            {selectedType === " Shoes" && (
+            {selectedType === "Shoes" && (
               <form className="radio-group">
-                {[" Sneakers", " Running", " Open-toe", " Heels", " Boots"].map((style) => (
+                {["Sneakers", "Running", "Open-toe", "Heels", "Boots"].map((style) => (
                   <label key={style}>
                     <input
                       type="radio"
@@ -154,7 +154,7 @@ function Catalog() {
           <div className="catalogcolumn3">
             <h3 className="maintitle2">Vibe</h3>
             <form className="checkbox-group">
-              {[" Party", " Casual", " Formal", " Gym"].map((vibe) => (
+              {["Party", "Casual", "Formal", "Athletic"].map((vibe) => (
                 <label key={vibe}>
                   <input
                     type="checkbox"

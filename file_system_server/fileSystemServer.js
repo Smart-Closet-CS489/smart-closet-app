@@ -31,7 +31,7 @@ app.put('/json-data/:filename', (req, res) => {
 
   try {
     const json = JSON.parse(req.body.toString());
-    contentToWrite = JSON.stringify(json, null, 2);
+    contentToWrite = JSON.stringify(json, null, 4);
   } catch (e) {}
 
   fs.writeFile(filePath, contentToWrite, (err) => {

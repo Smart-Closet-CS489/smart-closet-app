@@ -6,24 +6,241 @@ import { getJsonFile,
   
 export async function createClothingArticle(clothingJson) {
     try {
-      const data = await getJsonFile(clothingJson.category + '.json');
-      const clothingId = await getNextId();
-      const newClothingData = {
-        id: clothingId,
-        style: clothingJson.style,
-        color: {
-          R: clothingJson.color.R,
-          G: clothingJson.color.G,
-          B: clothingJson.color.B,
-        },
-        vibes: clothingJson.vibes,
-      };
-      data[String(clothingId)] = newClothingData;
-      await putJsonFile(clothingJson.category + '.json', data);
-      await writeImage(`${clothingId}.jpg`);
-      console.log('Successfully added new clothing article to', clothingJson.category + '.json');
+        clothingJson.color.R = clothingJson.color.R / 255;
+        clothingJson.color.G = clothingJson.color.G / 255;
+        clothingJson.color.B = clothingJson.color.B / 255;
+        const data = await getJsonFile(clothingJson.category + '.json');
+        const clothingId = await getNextId();
+        const newClothingData = {
+            id: clothingId,
+            style: clothingJson.style,
+            color: {
+            R: clothingJson.color.R,
+            G: clothingJson.color.G,
+            B: clothingJson.color.B,
+            },
+            vibes: clothingJson.vibes,
+        };
+        data[String(clothingId)] = newClothingData;
+        await putJsonFile(clothingJson.category + '.json', data);
+        await writeImage(`${clothingId}.jpg`);
+
+        if (clothingJson.category === 'tops') {
+            const bottoms = Object.values(await getJsonFile('bottoms.json'));
+            const outerwears = Object.values(await getJsonFile('outerwear.json'));
+            const shoes = Object.values(await getJsonFile('shoes.json'));
+            for (let vibe of clothingJson.vibes) {
+                const filteredBottoms = bottoms.filter(outfit => outfit.vibes.includes(vibe));
+                const filteredOuterwear = outerwears.filter(outfit => outfit.vibes.includes(vibe));
+                const filteredShoes = shoes.filter(outfit => outfit.vibes.includes(vibe));
+                for (let bottom of filteredBottoms) {
+                    for (let outerwear of filteredOuterwear) {
+                        for (let shoes of filteredShoes) {
+                            const outfitId = await getNextId();
+                            const newOutfit = {
+                                id: outfitId,
+                                top_id: clothingId,
+                                outerwear_id: outerwear.id,
+                                bottom_id: bottom.id,
+                                shoes_id: shoes.id,
+                                color_neurons: [outerwear.color.R, outerwear.color.G, outerwear.color.B,
+                                    clothingJson.color.R, clothingJson.color.G, clothingJson.color.B,
+                                    bottom.color.R, bottom.color.G, bottom.color.B,
+                                    shoes.color.R, shoes.color.G, shoes.color.B],
+                                style_neurons: [
+                                    outerwear.style === 'sweatshirt' ? 1 : 0,
+                                    outerwear.style === 'sweater' ? 1 : 0,
+                                    outerwear.style === 'jacket' ? 1 : 0,
+                                    outerwear.style === 'coat' ? 1 : 0,
+                                    outerwear.style === 'cardigan' ? 1 : 0,
+                                    outerwear.style === 'none' ? 1 : 0,
+                                    clothingJson.style === 't-shirt' ? 1 : 0,
+                                    clothingJson.style === 'long-sleeve' ? 1 : 0,
+                                    clothingJson.style === 'collared-shirt' ? 1 : 0,
+                                    clothingJson.style === 'tank-top' ? 1 : 0,
+                                    clothingJson.style === 'crop' ? 1 : 0,
+                                    bottom.style === 'pants' ? 1 : 0,
+                                    bottom.style === 'shorts' ? 1 : 0,
+                                    bottom.style === 'skirt' ? 1 : 0,
+                                    bottom.style === 'leggings' ? 1 : 0,
+                                    shoes.style === 'sneakers' ? 1 : 0,
+                                    shoes.style === 'running' ? 1 : 0,
+                                    shoes.style === 'open-toe' ? 1 : 0,
+                                    shoes.style === 'heels' ? 1 : 0,
+                                    shoes.style === 'boots' ? 1 : 0,
+                                ],
+                            };
+                            const outfitData = await getJsonFile(`${vibe}_outfits.json`);
+                            outfitData[String(outfitId)] = newOutfit;
+                            await putJsonFile(`${vibe}_outfits.json`, outfitData);
+                        }
+                    }
+                }
+            }
+        }
+        else if (clothingJson.category === 'bottoms') {
+            const tops = Object.values(await getJsonFile('tops.json'));
+            const outerwears = Object.values(await getJsonFile('outerwear.json'));
+            const shoes = Object.values(await getJsonFile('shoes.json'));
+            for (let vibe of clothingJson.vibes) {
+                const filteredTops = tops.filter(outfit => outfit.vibes.includes(vibe));
+                const filteredOuterwear = outerwears.filter(outfit => outfit.vibes.includes(vibe));
+                const filteredShoes = shoes.filter(outfit => outfit.vibes.includes(vibe));
+                for (let top of filteredTops) {
+                    for (let outerwear of filteredOuterwear) {
+                        for (let shoes of filteredShoes) {
+                            const outfitId = await getNextId();
+                            const newOutfit = {
+                                id: outfitId,
+                                top_id: top.id,
+                                outerwear_id: outerwear.id,
+                                bottom_id: clothingId,
+                                shoes_id: shoes.id,
+                                color_neurons: [outerwear.color.R, outerwear.color.G, outerwear.color.B,
+                                    clothingJson.color.R, clothingJson.color.G, clothingJson.color.B,
+                                    top.color.R, top.color.G, top.color.B,
+                                    shoes.color.R, shoes.color.G, shoes.color.B],
+                                style_neurons: [
+                                    outerwear.style === 'sweatshirt' ? 1 : 0,
+                                    outerwear.style === 'sweater' ? 1 : 0,
+                                    outerwear.style === 'jacket' ? 1 : 0,
+                                    outerwear.style === 'coat' ? 1 : 0,
+                                    outerwear.style === 'cardigan' ? 1 : 0,
+                                    outerwear.style === 'none' ? 1 : 0,
+                                    top.style === 't-shirt' ? 1 : 0,
+                                    top.style === 'long-sleeve' ? 1 : 0,
+                                    top.style === 'collared-shirt' ? 1 : 0,
+                                    top.style === 'tank-top' ? 1 : 0,
+                                    top.style === 'crop' ? 1 : 0,
+                                    clothingJson.style === 'pants' ? 1 : 0,
+                                    clothingJson.style === 'shorts' ? 1 : 0,
+                                    clothingJson.style === 'skirt' ? 1 : 0,
+                                    clothingJson.style === 'leggings' ? 1 : 0,
+                                    shoes.style === 'sneakers' ? 1 : 0,
+                                    shoes.style === 'running' ? 1 : 0,
+                                    shoes.style === 'open-toe' ? 1 : 0,
+                                    shoes.style === 'heels' ? 1 : 0,
+                                    shoes.style === 'boots' ? 1 : 0,
+                                ],
+                            };
+                            const outfitData = await getJsonFile(`${vibe}_outfits.json`);
+                            outfitData[String(outfitId)] = newOutfit;
+                            await putJsonFile(`${vibe}_outfits.json`, outfitData);
+                        }
+                    }
+                }
+            }
+        }
+        else if (clothingJson.category === 'shoes') {
+            const tops = Object.values(await getJsonFile('tops.json'));
+            const bottoms = Object.values(await getJsonFile('bottoms.json'));
+            const outerwears = Object.values(await getJsonFile('outerwear.json'));
+            for (let vibe of clothingJson.vibes) {
+                const filteredTops = tops.filter(outfit => outfit.vibes.includes(vibe));
+                const filteredBottoms = bottoms.filter(outfit => outfit.vibes.includes(vibe));
+                const filteredOuterwear = outerwears.filter(outfit => outfit.vibes.includes(vibe));
+                for (let top of filteredTops) {
+                    for (let bottom of filteredBottoms) {
+                        for (let outerwear of filteredOuterwear) {
+                            const outfitId = await getNextId();
+                            const newOutfit = {
+                                id: outfitId,
+                                top_id: top.id,
+                                outerwear_id: outerwear.id,
+                                bottom_id: bottom.id,
+                                shoes_id: clothingId,
+                                color_neurons: [outerwear.color.R, outerwear.color.G, outerwear.color.B,
+                                    clothingJson.color.R, clothingJson.color.G, clothingJson.color.B,
+                                    top.color.R, top.color.G, top.color.B,
+                                    bottom.color.R, bottom.color.G, bottom.color.B],
+                                style_neurons: [
+                                    outerwear.style === 'sweatshirt' ? 1 : 0,
+                                    outerwear.style === 'sweater' ? 1 : 0,
+                                    outerwear.style === 'jacket' ? 1 : 0,
+                                    outerwear.style === 'coat' ? 1 : 0,
+                                    outerwear.style === 'cardigan' ? 1 : 0,
+                                    outerwear.style === 'none' ? 1 : 0,
+                                    top.style === 't-shirt' ? 1 : 0,
+                                    top.style === 'long-sleeve' ? 1 : 0,
+                                    top.style === 'collared-shirt' ? 1 : 0,
+                                    top.style === 'tank-top' ? 1 : 0,
+                                    top.style === 'crop' ? 1 : 0,
+                                    bottom.style === 'pants' ? 1 : 0,
+                                    bottom.style === 'shorts' ? 1 : 0,
+                                    bottom.style === 'skirt' ? 1 : 0,
+                                    bottom.style === 'leggings' ? 1 : 0,
+                                    clothingJson.style === 'sneakers' ? 1 : 0,
+                                    clothingJson.style === 'running' ? 1 : 0,
+                                    clothingJson.style === 'open-toe' ? 1 : 0,
+                                    clothingJson.style === 'heels' ? 1 : 0,
+                                    clothingJson.style === 'boots' ? 1 : 0,
+                                ],
+                            };
+                            const outfitData = await getJsonFile(`${vibe}_outfits.json`);
+                            outfitData[String(outfitId)] = newOutfit;
+                            await putJsonFile(`${vibe}_outfits.json`, outfitData);
+                        }
+                    }
+                }
+            }
+        }
+        else if (clothingJson.category === 'outerwear') {
+            const tops = Object.values(await getJsonFile('tops.json'));
+            const bottoms = Object.values(await getJsonFile('bottoms.json'));
+            const shoes = Object.values(await getJsonFile('shoes.json'));
+            for (let vibe of clothingJson.vibes) {
+                const filteredTops = tops.filter(outfit => outfit.vibes.includes(vibe));
+                const filteredBottoms = bottoms.filter(outfit => outfit.vibes.includes(vibe));
+                const filteredShoes = shoes.filter(outfit => outfit.vibes.includes(vibe));
+                for (let top of filteredTops) {
+                    for (let bottom of filteredBottoms) {
+                        for (let shoes of filteredShoes) {
+                            const outfitId = await getNextId();
+                            const newOutfit = {
+                                id: outfitId,
+                                top_id: top.id,
+                                outerwear_id: clothingId,
+                                bottom_id: bottom.id,
+                                shoes_id: shoes.id,
+                                color_neurons: [clothingJson.color.R, clothingJson.color.G, clothingJson.color.B,
+                                    top.color.R, top.color.G, top.color.B,
+                                    bottom.color.R, bottom.color.G, bottom.color.B,
+                                    shoes.color.R, shoes.color.G, shoes.color.B],
+                                style_neurons: [
+                                    clothingJson.style === 'sweatshirt' ? 1 : 0,
+                                    clothingJson.style === 'sweater' ? 1 : 0,
+                                    clothingJson.style === 'jacket' ? 1 : 0,
+                                    clothingJson.style === 'coat' ? 1 : 0,
+                                    clothingJson.style === 'cardigan' ? 1 : 0,
+                                    clothingJson.style === 'none' ? 1 : 0,
+                                    top.style === 't-shirt' ? 1 : 0,
+                                    top.style === 'long-sleeve' ? 1 : 0,
+                                    top.style === 'collared-shirt' ? 1 : 0,
+                                    top.style === 'tank-top' ? 1 : 0,
+                                    top.style === 'crop' ? 1 : 0,
+                                    bottom.style === 'pants' ? 1 : 0,
+                                    bottom.style === 'shorts' ? 1 : 0,
+                                    bottom.style === 'skirt' ? 1 : 0,
+                                    bottom.style === 'leggings' ? 1 : 0,
+                                    shoes.style === 'sneakers' ? 1 : 0,
+                                    shoes.style === 'running' ? 1 : 0,
+                                    shoes.style === 'open-toe' ? 1 : 0,
+                                    shoes.style === 'heels' ? 1 : 0,
+                                    shoes.style === 'boots' ? 1 : 0,
+                                ],
+                            };
+                            const outfitData = await getJsonFile(`${vibe}_outfits.json`);
+                            outfitData[String(outfitId)] = newOutfit;
+                            await putJsonFile(`${vibe}_outfits.json`, outfitData);
+                        }
+                    }
+                }
+            }
+        }
+
+        console.log('Successfully added new clothing article to', clothingJson.category + '.json');
     } catch (err) {
-      console.error('Failed to add clothing article:', err.message);
+        console.error('Failed to add clothing article:', err.message);
     }
 }
 

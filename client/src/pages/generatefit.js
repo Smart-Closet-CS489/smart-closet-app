@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import './generatefit.css';
 import { getImageUrlsByOutfitId } from '../utils/repository';
-import { generateOutfit, giveFeedback } from '../utils/coral-api';
+//import { generateOutfit, giveFeedback } from '../utils/coral-api';
 
 function GenerateFit() {
 	const [ratings, setRatings] = useState([1, 1, 1]);
@@ -28,21 +28,21 @@ function GenerateFit() {
         setShoesImage(images.shoes_img_url);
     }
 
-    async function generateOutfit() {
-        if (outfitId != null) {
-            await handleFeedback();
-        }
-        let outfitId = await generateOutfit();//put vibe here
-        setOutfitId(outfitId);
-        fetchImages(outfitId);
+    async function handleGenerateOutfit() {
+        // if (outfitId != null) {
+        //     await handleFeedback();
+        // }
+        // let outfitId = await generateOutfit();//put vibe here
+        // setOutfitId(outfitId);
+        // fetchImages(outfitId);
     }
 
     async function handleFeedback() {
-        await giveFeedback(outfitId, ratings);
+       // await giveFeedback(outfitId, ratings);
     }
 
     useEffect(() => {
-        generateOutfit();
+        handleGenerateOutfit();
     }, []);
 
     const images = getImageUrlsByOutfitId(8);
@@ -60,7 +60,7 @@ function GenerateFit() {
 				<div className="lower-buttons">
 					<div className="radio-group2 ">
 						<button className="backbutton"
-                                onClick={generateOutfit}>
+                                onClick={handleGenerateOutfit}>
 							Regenerate
 						</button>
 
