@@ -51,6 +51,13 @@ function TakePhoto() {
 			});
 	}, [isPhotoShown]);
 
+    useEffect(() => {
+		fetch("http://localhost:7123/set-isstreaming-true")
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}, []);
+
 	return (
 		<div className="App-background">
 			<div className="entirepage">

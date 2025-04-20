@@ -32,6 +32,8 @@ async function createClothingArticle(clothingJson) {
         },
         vibes: clothingJson.vibes,
       };
+
+      
       
       data[String(clothingId)] = newClothingData;
       await putJsonFile(clothingJson.category + '.json', data);
@@ -79,10 +81,10 @@ async function getImageUrlsByOutfitId(id) {
     try {
         let outfit = await getOutfitById(id);
         return {
-            top_url: getImageUrl(`${outfit.top_id}.jpg`),
-            outerwear_url: getImageUrl(`${outfit.outerwear_id}.jpg`),
-            bottom_url: getImageUrl(`${outfit.bottom_id}.jpg`),
-            shoes_url: getImageUrl(`${outfit.shoes_id}.jpg`)
+            top_img_url: getImageUrl(`${outfit.top_id}.jpg`),
+            outerwear_img_url: getImageUrl(`${outfit.outerwear_id}.jpg`),
+            bottom_img_url: getImageUrl(`${outfit.bottom_id}.jpg`),
+            shoes_img_url: getImageUrl(`${outfit.shoes_id}.jpg`)
         }
     } catch (err) {
         console.error('Failed to retrieve image URLs:', err.message);

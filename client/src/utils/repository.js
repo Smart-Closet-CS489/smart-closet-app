@@ -1,23 +1,9 @@
-const {
-    getJsonFile,
+import { getJsonFile,
     putJsonFile,
     writeImage,
     getImageUrl,
-    getNextId,
-  } = require('./fileSystemHelper');
+    getNextId } from './fileSystemHelper.js';
   
-
-/*
-{
-    "category": "tops",
-    "style": "t-shirt",
-    "color": {
-        "R": 255,
-        "G": 0, 
-        "B": 0},
-    "vibes": ["casual", "formal"],
-}
-*/
 export async function createClothingArticle(clothingJson) {
     try {
       const data = await getJsonFile(clothingJson.category + '.json');
@@ -78,23 +64,16 @@ export async function getImageUrlsByOutfitId(id) {
     try {
         let outfit = await getOutfitById(id);
         return {
-            top_img_url: getImageUrl(`${outfit.top_id}.jpg`),
-            outerwear_img_url: getImageUrl(`${outfit.outerwear_id}.jpg`),
-            bottom_img_url: getImageUrl(`${outfit.bottom_id}.jpg`),
-            shoes_img_url: getImageUrl(`${outfit.shoes_id}.jpg`)
+            top_img_url: await getImageUrl(`${outfit.top_id}.jpg`),
+            outerwear_img_url: await getImageUrl(`${outfit.outerwear_id}.jpg`),
+            bottom_img_url: await getImageUrl(`${outfit.bottom_id}.jpg`),
+            shoes_img_url: await getImageUrl(`${outfit.shoes_id}.jpg`)
         }
     } catch (err) {
         console.error('Failed to retrieve image URLs:', err.message);
         return null;
     }
 }
-
-module.exports = {
-    createClothingArticle,
-    getOutfitById,
-    getInferenceSampleByVibe,
-    getImageUrlsByOutfitId
-};
 
 
 

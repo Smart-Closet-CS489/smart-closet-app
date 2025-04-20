@@ -1,9 +1,8 @@
-// jsonHelpers.js
-const axios = require('axios');
+import axios from 'axios';
 
 const BASE_URL = 'http://localhost:62333';
 
-async function getJsonFile(filename) {
+export async function getJsonFile(filename) {
   try {
     const res = await axios.get(`${BASE_URL}/json-data/${filename}`);
     return res.data;
@@ -13,7 +12,7 @@ async function getJsonFile(filename) {
   }
 }
 
-async function putJsonFile(filename, data) {
+export async function putJsonFile(filename, data) {
   try {
     await axios.put(`${BASE_URL}/json-data/${filename}`, data, {
       headers: {
@@ -27,34 +26,34 @@ async function putJsonFile(filename, data) {
   }
 }
 
-async function writeImage(filename) {
+export async function writeImage(filename) {
     try {
-      await axios.post(`${BASE_URL}/images/${filename}`);
-      console.log(`Triggered image write to ${filename}`);
+        await axios.post(`${BASE_URL}/images/${filename}`);
+        console.log(`Triggered image write to ${filename}`);
     } catch (err) {
-      console.error(`Error triggering image write for ${filename}:`, err.message);
-      throw err;
+        console.error(`Error triggering image write for ${filename}:`, err.message);
+        throw err;
     }
   }
   
-  function getImageUrl(filename) {
+export async function getImageUrl(filename) {
     return `${BASE_URL}/images/${filename}`;
-  }
+}
   
-  async function getNextId() {
+export async function getNextId() {
     try {
-      const res = await axios.get(`${BASE_URL}/new-id`);
-      return res.data.newId;
+        const res = await axios.get(`${BASE_URL}/new-id`);
+        return res.data.newId;
     } catch (err) {
-      console.error(`Error getting next ID:`, err.message);
-      throw err;
+        console.error(`Error getting next ID:`, err.message);
+        throw err;
     }
-  }
+}
   
-  module.exports = {
-    getJsonFile,
-    putJsonFile,
-    writeImage,
-    getImageUrl,
-    getNextId,
-  };
+//   module.exports = {
+//     getJsonFile,
+//     putJsonFile,
+//     writeImage,
+//     getImageUrl,
+//     getNextId,
+//   };

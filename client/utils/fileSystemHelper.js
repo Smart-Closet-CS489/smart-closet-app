@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const BASE_URL = 'http://localhost:62333';
 
-async function getJsonFile(filename) {
+export async function getJsonFile(filename) {
   try {
     const res = await axios.get(`${BASE_URL}/json-data/${filename}`);
     return res.data;
@@ -13,7 +13,7 @@ async function getJsonFile(filename) {
   }
 }
 
-async function putJsonFile(filename, data) {
+export async function putJsonFile(filename, data) {
   try {
     await axios.put(`${BASE_URL}/json-data/${filename}`, data, {
       headers: {
@@ -27,7 +27,7 @@ async function putJsonFile(filename, data) {
   }
 }
 
-async function writeImage(filename) {
+export async function writeImage(filename) {
     try {
       await axios.post(`${BASE_URL}/images/${filename}`);
       console.log(`Triggered image write to ${filename}`);
@@ -41,7 +41,7 @@ async function writeImage(filename) {
     return `${BASE_URL}/images/${filename}`;
   }
   
-  async function getNextId() {
+export async function getNextId() {
     try {
       const res = await axios.get(`${BASE_URL}/new-id`);
       return res.data.newId;
@@ -50,11 +50,3 @@ async function writeImage(filename) {
       throw err;
     }
   }
-  
-  module.exports = {
-    getJsonFile,
-    putJsonFile,
-    writeImage,
-    getImageUrl,
-    getNextId,
-  };
