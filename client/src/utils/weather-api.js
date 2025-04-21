@@ -27,7 +27,7 @@ export async function getWeather() {
   
     // current weather deets
     const currentWeather = data.current_weather;
-    const temperature = currentWeather.temperature;
+    let temperature = currentWeather.temperature;
     const currentTime = currentWeather.time;
   
     const hourlyTimes = data.hourly.time;
@@ -59,6 +59,9 @@ export async function getWeather() {
       snow = precipProbability >= THRESHOLD;
     }
   
+    // Sorry Shreya - I am converting temp to freedom units bc my brain can't comprehend celsius
+    temperature = Math.round((temperature * 9/5) + 32);
+
     return {
       temperature,
       rain,
