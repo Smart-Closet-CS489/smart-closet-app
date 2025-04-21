@@ -14,13 +14,57 @@
   }
   
   .image-item {
-    width: 100%;
+    width: 85%;
     height: auto;
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
+    margin-left: px;
+    border-top: 10px solid #ffffff;
   }
 
 .lower-buttons{
     display: flex;
     align-items: center; 
+}
+
+
+.polaroid {
+  width: 21vw;
+  text-align: center;
+  background-color: #ffffff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
+} 
+
+.polaroid-label {
+  font-size: 16px;
+  padding-bottom: 9%;
+  padding-top: 9%;
+}
+
+.rating-select {
+  border: rounded px-2 py-1;
+  border-color: #ffffff;
+  background-color: #ffffff;
+  font-size: 20px;
+  padding: 1vw;
+  margin: 1vw;
+  border-radius: 10px;
+  accent-color: #debfe6;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.11);
+}
+
+.select-row {
+  display: flex;
+  gap: 2rem; /* space between the selects */
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.select-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.select-label {
+  font-size: 16px;
+  font-weight: 400;
 }

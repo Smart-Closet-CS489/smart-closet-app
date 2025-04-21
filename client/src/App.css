@@ -5,12 +5,12 @@
 }
 
 .body {
-    background-color: #f7f3ed;
+  background-color: #f7f3ed;
 }
 
 .button {
   border: none;
-  background-color: #FFE5EC;
+  background-color: #f5d3dc;
   text-align: center;
   padding: 20px 100px;
   border-radius: 10px;
@@ -19,14 +19,14 @@
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
 }
 
-.maintitle{
+.maintitle {
   font-family: "Jua", sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: 60px;
 }
 
-.maintitle2{
+.maintitle2 {
   font-family: "Jua", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -34,15 +34,18 @@
 }
 
 .App-background {
+  background-image: url("http://localhost:3000/graph_paper2.png");
+  background-size: "cover";
   height: 100vh;
-  background-color: #f5f4f2;
+  background-repeat: repeat;
+  background-position: center;
+  /* height: 100vh;
+  background-color: #f5f4f2; */
 }
-
-.App-Centering{
+.App-Centering {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-

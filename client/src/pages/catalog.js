@@ -197,8 +197,11 @@ function Catalog() {
           color: selectedColor
         }} onClick={(e) => !isComplete && e.preventDefault()}>
           <button className={`photobutton ${isComplete ? "enabled" : "disabled"}`} type="button" disabled={!isComplete}>
+          <img src="/star_stickers/green_star.png" alt="" className={`star_sticker ${isComplete ? "enabled" : "disabled"}`}  disabled={!isComplete}/>
+
             Take Photo!
             <img src="/white_cam.png" alt="" className="digital_cam" />
+            <img src="/star_stickers/green_star.png" alt="" className={`star_sticker ${isComplete ? "enabled" : "disabled"}`}  disabled={!isComplete}/>
           </button>
         </Link>
       </div>

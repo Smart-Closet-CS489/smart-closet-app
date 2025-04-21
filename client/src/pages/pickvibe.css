@@ -30,6 +30,7 @@
   gap: 20px; /* space between radio buttons */
   margin-top: 30px;
   input[type="radio"] {
+    margin-right: 10px;
     accent-color: #f5b4c5; /* Any color you want */
   }
 }
@@ -39,4 +40,13 @@
   height: 60%;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.star_sticker {
+  width:0vw;
+}
+
+.star_sticker.enabled {
+  width:4vw;
+  padding: 5px;
 }

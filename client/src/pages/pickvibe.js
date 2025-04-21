@@ -37,7 +37,7 @@ function PickVibe() {
 					<div className="column1">
 						<h3 className="maintitle2">Vibe</h3>
 						<form className="radio-group">
-							{[" Party", " Casual", " Formal", " Gym"].map((type) => (
+							{["Party", "Casual", "Formal", "Athletic"].map((type) => (
 								<label key={type}>
 									<input
 										type="radio"
@@ -72,7 +72,9 @@ function PickVibe() {
 					}
 				}}>
 					<button className={`photobutton ${isComplete ? "enabled" : "disabled"}`} type="button" disabled={!isComplete}>
+						<img src="/star_stickers/green_star.png" alt="" className={`star_sticker ${isComplete ? "enabled" : "disabled"}`}  disabled={!isComplete}/>
 						Generate Outfit
+						<img src="/star_stickers/green_star.png" alt="" className={`star_sticker ${isComplete ? "enabled" : "disabled"}`}  disabled={!isComplete}/>
 					</button>
 				</Link>
 			</div>
