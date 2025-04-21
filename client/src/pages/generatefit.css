@@ -41,25 +41,34 @@
 
 .rating-select {
   border: rounded px-2 py-1;
-  border-color: #ffffff;
+  border-color: #cacaca;
   background-color: #ffffff;
-  font-size: 20px;
+  font-size: 16px;
   padding: 1vw;
   margin: 1vw;
   border-radius: 10px;
   accent-color: #debfe6;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.11);
 }
 
 .select-row {
   display: flex;
-  gap: 2rem; /* space between the selects */
+  gap: 0vw; /* space between the selects */
   justify-content: center;
   align-items: flex-start;
+  /* background-color: #c8daf3;; */
+  background-color: #ffffff;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
+  border-radius: 10px;
+
 }
 
 .select-group {
   display: flex;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-radius: 10px;
   flex-direction: column;
   align-items: center;
 }
