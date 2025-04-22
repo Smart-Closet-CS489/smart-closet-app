@@ -56,7 +56,7 @@ function PickVibe() {
 					<div className="column3">
 						<h3 className="maintitle2">Current Weather</h3>
 						<img src="weather_icons/partly_cloudy.png" alt="weather icon" className="image-item2" />
-						<h3> {weather.temperature}° </h3>
+						<h1 className="temp"> {weather.temperature}° </h1>
 					</div>
 				</div>
 			</div>

@@ -5,7 +5,7 @@
   /* Each column takes equal space */
   background-color: white;
   width: 0em;
-  height: 24em;
+  height: 22em;
   margin: 10px;
   padding: 30px 30px;
   text-align: center;
@@ -44,6 +44,11 @@
 
 .star_sticker {
   width:0vw;
+}
+
+.temp {
+  font-size: 100;
+  font-weight: 700;
 }
 
 .star_sticker.enabled {

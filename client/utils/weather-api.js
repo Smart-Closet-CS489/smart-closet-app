@@ -58,7 +58,7 @@ export async function getWeather() {
     } else {
       snow = precipProbability >= THRESHOLD;
     }
-  
+
     return {
       temperature,
       rain,
