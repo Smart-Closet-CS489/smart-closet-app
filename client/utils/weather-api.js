@@ -11,14 +11,20 @@
  * @throws {Error}
  * 
  */
-export async function getWeather() {
+async function getWeather() {
     const latitude = 40.4259;
     const longitude = -86.9081;
   
     const THRESHOLD = 50;
   
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=precipitation_probability`;
-  
+    const url =
+    `https://api.open-meteo.com/v1/forecast` +
+    `?latitude=${latitude}` +
+    `&longitude=${longitude}` +
+    `&current_weather=true` +
+    `&hourly=precipitation_probability` +
+    `&temperature_unit=fahrenheit`;
+      
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`weather API request failed :(( with ${response.status}`);
@@ -65,3 +71,15 @@ export async function getWeather() {
       snow
     };
   }
+
+//test
+  async function main() {
+    try {
+      const weather = await getWeather()
+      console.log(weather)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  
+  main()
