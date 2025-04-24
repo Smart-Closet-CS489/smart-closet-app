@@ -1,4 +1,4 @@
-import { getOutfitByID } from './repository';
+import { getOutfitByID, getInferenceSampleByVibe } from './repository';
 import { getJsonFile, putJsonFile } from './fileSystemHelper';
 import { getWeather } from './weather-api';
 
@@ -10,7 +10,7 @@ const baseUrl = 'http://localhost:5000'
  * @returns {Promise<Boolean>}
  *
  */
-async function createModels() {
+export async function createModels() {
     const models = [
       {
         model_name: "color_model",
@@ -69,13 +69,64 @@ async function createModels() {
   }
 
 /**
- * @returns {Promise<Boolean>}
+ * samples outfits by vibe, augments them with weather_neurons,
+ * runs them through the three Coral models, aggregates their scores,
+ * and returns one randomly chosen top-5 outfit
  *
- * }
+ * @param {'formal'|'casual'|'party'|'atheletic'} vibe
+ * @returns {Promise<Object>}
  */
-async function generateOutfit() {
-    
-}
+export async function generateOutfit(vibe) {
+    // get a randomized sample of outfits for this vibe
+    const sampled = await getInferenceSampleByVibe(vibe);
+    if (!Array.isArray(sampled) || sampled.length == 0) {
+      throw new Error(`No outfits found for vibe "${vibe}"`);
+    }
+  
+    // fetch current temperature in fahrenheit and normalize
+    const { temperature } = await getWeather();
+    const normalizedTemp = parseFloat((temperature / 100).toFixed(2));
+  
+    // augment each outfit with weather_neurons, aka [normalizedTemp, ...style_neurons]
+    const outfits = sampled.map(o => ({
+      ...o,
+      weather_neurons: [normalizedTemp, ...o.style_neurons]
+    }));
+  
+    // build the batched inputs for each model
+    const colorInputs   = outfits.map(o => o.color_neurons);
+    const styleInputs   = outfits.map(o => o.style_neurons);
+    const weatherInputs = outfits.map(o => o.weather_neurons);
+  
+    // call inference endpoints in parallel
+    const [ colorRes, weatherRes, styleRes ] = await Promise.all([
+      axios.post(`${BASE_URL}/models/color_model/inference`,   { inputs: colorInputs   }),
+      axios.post(`${BASE_URL}/models/weather_model/inference`, { inputs: weatherInputs }),
+      axios.post(`${BASE_URL}/models/style_model/inference`,   { inputs: styleInputs   })
+    ]);
+  
+    const colorOut   = colorRes.data.outputs;
+    const weatherOut = weatherRes.data.outputs;
+    const styleOut   = styleRes.data.outputs;
+  
+    // aggregate scores per outfit index
+    const aggregates = outfits.map((_, i) => {
+      const sumArray = arr => arr.reduce((a, b) => a + b, 0);
+      const totalScore =
+        sumArray(colorOut[i]) +
+        sumArray(weatherOut[i]) +
+        sumArray(styleOut[i]);
+      return { idx: i, score: totalScore };
+    });
+  
+    // select top 5 and choose 1
+    aggregates.sort((a, b) => b.score - a.score);
+    const top5Indices = aggregates.slice(0, 5).map(a => a.idx);
+    const chosenIdx = top5Indices[Math.floor(Math.random() * top5Indices.length)];
+    const chosenId  = outfits[chosenIdx].id;
+  
+    return await getOutfitByID(chosenId);
+  }
 
 
 /**
