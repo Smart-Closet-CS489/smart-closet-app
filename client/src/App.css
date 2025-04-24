@@ -19,6 +19,19 @@
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
 }
 
+.refresh_button {
+  position: fixed;
+  bottom: 5vh;
+  right: 5vw;
+  border: none;
+  background-color: #f5d3dc;
+  text-align: center;
+  padding: 15px 15px;
+  border-radius: 10px;
+  margin: 10px;
+  font-size: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
+}
 .maintitle {
   font-family: "Jua", sans-serif;
   font-weight: 400;
