@@ -134,7 +134,7 @@ export async function generateOutfit(vibe) {
  * @returns {Promise<Object>}
  * @throws {Error}
  */
-async function deleteModel(modelName) {
+export async function deleteModel(modelName) {
     try {
         const response = await axios.delete(`${baseUrl}/models/${modelName}`);
         return response.data;
@@ -150,7 +150,7 @@ async function deleteModel(modelName) {
  * @returns {Promise<Object>}
  * @throws {Error}
  */
-async function getModelInfo(modelName) {
+export async function getModelInfo(modelName) {
     try {
         const response = await axios.get(`${baseUrl}/models/${modelName}`);
         return response.data;
