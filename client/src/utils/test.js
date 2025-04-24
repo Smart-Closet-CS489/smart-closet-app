@@ -1,10 +1,10 @@
 import { createClothingArticle } from './repository.js';
 
 const testClothing = {
-    category: 'tops',
-    style: 't-shirt',
-    color: { R: 255, G: 0, B: 0 },
-    vibes: ['casual', 'formal'],
-};
+    category: 'outerwear',
+    style: 'none',
+    color: { R: 0, G: 0, B: 0 },
+    vibes: ['casual', 'formal', 'party', 'athletic'],
+  };
   
-createClothingArticle(testClothing);
+  createClothingArticle(testClothing);
