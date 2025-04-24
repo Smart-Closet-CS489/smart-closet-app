@@ -1,6 +1,7 @@
 import './App.css';
 import React from "react";
 import { Link } from "react-router-dom";
+import { refreshData } from '../utils/repository'
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
             <Link to="/pickvibe">
               <button className="button" type="button">Create Outfit</button>
             </Link>
+          </div>
+          <div>
+            <button className='refresh_button' onClick={refreshData} type="button">↻</button>
           </div>
         </div>
       </div>
