@@ -3,7 +3,7 @@
  * uses open‑meteo api
  *
  * returns object with:
- *   - temperature: current temperature (in celsius :D)
+ *   - temperature: current temperature (in fahrenheit :()
  *   - rain: boolean, true if chance of precipitation above threshold and temperature > 0°C.
  *   - snow: boolean, true if chance of precipitation above threshold and temperature <= 0°C.
  * *
