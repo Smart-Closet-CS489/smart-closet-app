@@ -66,7 +66,9 @@ function PickVibe() {
 				</Link>
 
 				{/* generate fit button */}
-				<Link to={isComplete ? "/generatefit" : "#"} onClick={() => {
+				<Link to={isComplete ? "/generatefit" : "#"} state={{
+					vibe: selectedVibe.trim().toLowerCase()
+				}} onClick={() => {
 					if (isComplete) {
 						getInferenceSampleByVibe(selectedVibe.trim()); // remove leading space
 					}

@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import './generatefit.css';
-import { getImageUrlsByOutfitId } from '../utils/repository';
-//import { generateOutfit, giveFeedback } from '../utils/coral-api';
+import { getOutfitById, getImageUrlsByOutfitId } from '../utils/repository';
+import { generateOutfit, giveFeedback } from '../utils/coral-api';
 
 function GenerateFit() {
 	const [ratings, setRatings] = useState([1, 1, 1]);
@@ -11,7 +11,10 @@ function GenerateFit() {
 	const [topImage, setTopImage] = useState('');
 	const [bottomImage, setBottomImage] = useState('');
 	const [shoesImage, setShoesImage] = useState('');
-	const [outfitId, setOutfitId] = useState(null);
+	const [outfitId, setOutfitId] = useState(0);
+	const location = useLocation();
+	const vibeData = location.state;
+
 
 	const handleRatingChange = (index, value) => {
 		const updated = [...ratings];
@@ -19,9 +22,13 @@ function GenerateFit() {
 		setRatings(updated);
 	};
 
-	async function fetchImages(outfitId) {
+	async function fetchImages() {
 		const images = await getImageUrlsByOutfitId(outfitId);
 		console.log(images);
+        if (!images) {
+            console.error("No images found for outfit ID:", outfitId);
+            return;
+        }
 		setOuterwearImage(images.outerwear_img_url);
 		setTopImage(images.top_img_url);
 		setBottomImage(images.bottom_img_url);
@@ -29,23 +36,25 @@ function GenerateFit() {
 	}
 
 	async function handleGenerateOutfit() {
-		// if (outfitId != null) {
-		//     await handleFeedback();
-		// }
-		// let outfitId = await generateOutfit();//put vibe here
-		// setOutfitId(outfitId);
-		// fetchImages(outfitId);
+		if (outfitId != 0) {
+		     await handleFeedback();
+		}
+        console.log("Generating outfit with vibe:", vibeData.vibe);
+		 setOutfitId(await generateOutfit(vibeData.vibe));//put vibe here
+         console.log("Generated outfit ID:", outfitId);
 	}
 
 	async function handleFeedback() {
-		// await giveFeedback(outfitId, ratings);
+		 await giveFeedback(outfitId, ratings);
 	}
 
 	useEffect(() => {
 		handleGenerateOutfit();
 	}, []);
 
-	const images = getImageUrlsByOutfitId(8);
+    useEffect(() => {
+		fetchImages()
+	}, [outfitId]);
 
 	return (
 		<div className="App-background">
@@ -56,19 +65,19 @@ function GenerateFit() {
 					<img src={bottomImage} alt="bottom" className="image-item" />
 					<img src={shoesImage} alt="shoes" className="image-item" /> */}
 					<div className="polaroid">
-						<img src="/mountains.jpg" alt="outerwear" className="image-item" />
+						<img src={outerwearImage}  alt="outerwear" className="image-item" />
 						<div className="polaroid-label">Outerwear</div>
 					</div>
 					<div className="polaroid">
-						<img src="/mountains.jpg" alt="top" className="image-item" />
+						<img src={topImage}  alt="top" className="image-item" />
 						<div className="polaroid-label">Top</div>
 					</div>
 					<div className="polaroid">
-						<img src="/mountains.jpg" alt="bottom" className="image-item" />
+						<img src={bottomImage}  alt="bottom" className="image-item" />
 						<div className="polaroid-label">Bottoms</div>
 					</div>
 					<div className="polaroid">
-						<img src="/mountains.jpg" alt="shoes" className="image-item" />
+						<img src={shoesImage} alt="shoes" className="image-item" />
 						<div className="polaroid-label">Shoes</div>
 					</div>
 				</div>

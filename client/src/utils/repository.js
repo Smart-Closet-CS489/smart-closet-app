@@ -261,6 +261,7 @@ export async function getOutfitById(id) {
 
 export async function getInferenceSampleByVibe(vibe) {
     try {
+        vibe = vibe.toLowerCase();
         const data = await getJsonFile(`${vibe}_outfits.json`);
         const outfits = Object.values(data);
         const sampleSize = Math.max(1, Math.min(1000, Math.floor(outfits.length * 0.2)));
@@ -298,61 +299,63 @@ export async function refreshData() {
     const vibes = ['casual', 'formal', 'party', 'athletic'];
 
     for (let vibe of vibes) {
+        console.log(`Starting refresh for vibe: ${vibe}`);
+        const outfitData = await getJsonFile(`${vibe}_outfits.json`);
         const tops = Object.values(await getJsonFile('tops.json'));
         const bottoms = Object.values(await getJsonFile('bottoms.json'));
         const shoes = Object.values(await getJsonFile('shoes.json'));
         const outerwears = Object.values(await getJsonFile('outerwear.json'));
-        for (let vibe of clothingJson.vibes) {
-            const filteredTops = tops.filter(outfit => outfit.vibes.includes(vibe));
-            const filteredBottoms = bottoms.filter(outfit => outfit.vibes.includes(vibe));
-            const filteredShoes = shoes.filter(outfit => outfit.vibes.includes(vibe));
-            const filteredOuterwears = outerwears.filter(outfit => outfit.vibes.includes(vibe));
-            for (let top of filteredTops) {
-                for (let bottom of filteredBottoms) {
-                    for (let shoes of filteredShoes) {
-                        for (let outerwear of filteredOuterwears) {
-                            const outfitId = await getNextId();
-                            const newOutfit = {
-                                id: outfitId,
-                                top_id: top.id,
-                                outerwear_id: outerwear.id,
-                                bottom_id: bottom.id,
-                                shoes_id: shoes.id,
-                                color_neurons: [outerwear.color.R, outerwear.color.G, outerwear.color.B,
-                                    top.color.R, top.color.G, top.color.B,
-                                    bottom.color.R, bottom.color.G, bottom.color.B,
-                                    shoes.color.R, shoes.color.G, shoes.color.B],
-                                style_neurons: [
-                                    outerwear.style === 'sweatshirt' ? 1 : 0,
-                                    outerwear.style === 'sweater' ? 1 : 0,
-                                    outerwear.style === 'jacket' ? 1 : 0,
-                                    outerwear.style === 'coat' ? 1 : 0,
-                                    outerwear.style === 'cardigan' ? 1 : 0,
-                                    outerwear.style === 'none' ? 1 : 0,
-                                    top.style === 't-shirt' ? 1 : 0,
-                                    top.style === 'long-sleeve' ? 1 : 0,
-                                    top.style === 'collared-shirt' ? 1 : 0,
-                                    top.style === 'tank-top' ? 1 : 0,
-                                    top.style === 'crop' ? 1 : 0,
-                                    bottom.style === 'pants' ? 1 : 0,
-                                    bottom.style === 'shorts' ? 1 : 0,
-                                    bottom.style === 'skirt' ? 1 : 0,
-                                    bottom.style === 'leggings' ? 1 : 0,
-                                    shoes.style === 'sneakers' ? 1 : 0,
-                                    shoes.style === 'running' ? 1 : 0,
-                                    shoes.style === 'open-toe' ? 1 : 0,
-                                    shoes.style === 'heels' ? 1 : 0,
-                                    shoes.style === 'boots' ? 1 : 0,
-                                ],
-                            };
-                            const outfitData = {};
-                            outfitData[String(outfitId)] = newOutfit;
-                            await putJsonFile(`${vibe}_outfits.json`, outfitData);
-                        }
+        const filteredTops = tops.filter(outfit => outfit.vibes.includes(vibe));
+        const filteredBottoms = bottoms.filter(outfit => outfit.vibes.includes(vibe));
+        const filteredShoes = shoes.filter(outfit => outfit.vibes.includes(vibe));
+        const filteredOuterwears = outerwears.filter(outfit => outfit.vibes.includes(vibe));
+        for (let top of filteredTops) {
+            for (let bottom of filteredBottoms) {
+                for (let shoes of filteredShoes) {
+                    for (let outerwear of filteredOuterwears) {
+                        const outfitId = await getNextId();
+                        const newOutfit = {
+                            id: outfitId,
+                            top_id: top.id,
+                            outerwear_id: outerwear.id,
+                            bottom_id: bottom.id,
+                            shoes_id: shoes.id,
+                            color_neurons: [outerwear.color.R, outerwear.color.G, outerwear.color.B,
+                                top.color.R, top.color.G, top.color.B,
+                                bottom.color.R, bottom.color.G, bottom.color.B,
+                                shoes.color.R, shoes.color.G, shoes.color.B],
+                            style_neurons: [
+                                outerwear.style === 'sweatshirt' ? 1 : 0,
+                                outerwear.style === 'sweater' ? 1 : 0,
+                                outerwear.style === 'jacket' ? 1 : 0,
+                                outerwear.style === 'coat' ? 1 : 0,
+                                outerwear.style === 'cardigan' ? 1 : 0,
+                                outerwear.style === 'none' ? 1 : 0,
+                                top.style === 't-shirt' ? 1 : 0,
+                                top.style === 'long-sleeve' ? 1 : 0,
+                                top.style === 'collared-shirt' ? 1 : 0,
+                                top.style === 'tank-top' ? 1 : 0,
+                                top.style === 'crop' ? 1 : 0,
+                                bottom.style === 'pants' ? 1 : 0,
+                                bottom.style === 'shorts' ? 1 : 0,
+                                bottom.style === 'skirt' ? 1 : 0,
+                                bottom.style === 'leggings' ? 1 : 0,
+                                shoes.style === 'sneakers' ? 1 : 0,
+                                shoes.style === 'running' ? 1 : 0,
+                                shoes.style === 'open-toe' ? 1 : 0,
+                                shoes.style === 'heels' ? 1 : 0,
+                                shoes.style === 'boots' ? 1 : 0,
+                            ],
+                        };
+                        outfitData[String(outfitId)] = newOutfit;
                     }
+                    console.log("did something")
                 }
             }
         }
+        console.log(`Overwriting data for vibe: ${vibe}`);
+        await putJsonFile(`${vibe}_outfits.json`, outfitData);
+        console.log(`Successfully refreshed data for vibe: ${vibe}`);
     }
 }
 

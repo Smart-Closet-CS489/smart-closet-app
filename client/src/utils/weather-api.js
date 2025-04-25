@@ -11,7 +11,7 @@
  * @throws {Error}
  * 
  */
-async function getWeather() {
+export async function getWeather() {
     const latitude = 40.4259;
     const longitude = -86.9081;
   

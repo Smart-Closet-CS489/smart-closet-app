@@ -1,10 +1,10 @@
 import { getOutfitById, getInferenceSampleByVibe } from './repository';
 import { getJsonFile, putJsonFile } from './fileSystemHelper';
 import { getWeather } from './weather-api';
+import axios from 'axios';
 
-const axios = require('axios');
 
-const baseUrl = 'http://localhost:5000'
+const baseUrl = 'http://localhost:7000'
 
 /**
  * @returns {Promise<Boolean>}
@@ -49,6 +49,7 @@ export async function createModels() {
               const response = await axios.post(`${baseUrl}/models`, modelData);
               if (response) {
                 console.log(`Model "${modelData.model_name}" created successfully.`);
+                await compileModels(['color_model', 'weather_model', 'style_model']);
               }
             } catch (creationError) {
               console.error(`Error creating model "${modelData.model_name}":`, creationError.message);
@@ -73,8 +74,8 @@ export async function createModels() {
  * runs them through the three Coral models, aggregates their scores,
  * and returns one randomly chosen top-5 outfit
  *
- * @param {'formal'|'casual'|'party'|'atheletic'} vibe
- * @returns {Promise<Object>}
+ * @param {'formal'|'casual'|'party'|'athletic'} vibe
+ * @returns {Promise<Number>}
  */
 export async function generateOutfit(vibe) {
     // get a randomized sample of outfits for this vibe
@@ -99,11 +100,9 @@ export async function generateOutfit(vibe) {
     const weatherInputs = outfits.map(o => o.weather_neurons);
   
     // call inference endpoints in parallel
-    const [ colorRes, weatherRes, styleRes ] = await Promise.all([
-      axios.post(`${baseUrl}/models/color_model/inference`,   { inputs: colorInputs   }),
-      axios.post(`${baseUrl}/models/weather_model/inference`, { inputs: weatherInputs }),
-      axios.post(`${baseUrl}/models/style_model/inference`,   { inputs: styleInputs   })
-    ]);
+    const colorRes = await axios.post(`${baseUrl}/models/color_model/inference`,   { inputs: colorInputs   })
+    const weatherRes = await axios.post(`${baseUrl}/models/weather_model/inference`, { inputs: weatherInputs })
+    const styleRes = await axios.post(`${baseUrl}/models/style_model/inference`,   { inputs: styleInputs   })
   
     const colorOut   = colorRes.data.outputs;
     const weatherOut = weatherRes.data.outputs;
@@ -124,8 +123,10 @@ export async function generateOutfit(vibe) {
     const top5Indices = aggregates.slice(0, 5).map(a => a.idx);
     const chosenIdx = top5Indices[Math.floor(Math.random() * top5Indices.length)];
     const chosenId  = outfits[chosenIdx].id;
+
+    console.log("This is the returned outfit ID: ", chosenId)
   
-    return await getOutfitById(chosenId);
+    return chosenId;
   }
 
 
@@ -278,23 +279,29 @@ export async function giveFeedback(outfitId, scores) {
       const normalizedTemp = temp / 100; // converting to 0-1 scale
   
       outfit.weather_neurons = [...outfit.style_neurons, normalizedTemp];
+
+      // slightly randomize scores for model training purposes
+      for (let i = 0; i < 3; i++) {
+        const randomizer = Math.random() * 0.1 - 0.05
+        scores[i] = Math.max(Math.min((scores[i] - 1) / 4 + randomizer, 1), 0)
+      }
   
       // the scores array is ordered as: [color, weather, type]
-      await appendToFile(COLOR_BUFFER_FILE, { input: outfit.color_neurons, output: scores[0] });
-      await appendToFile(WEATHER_BUFFER_FILE, { input: outfit.weather_neurons, output: scores[1] });
-      await appendToFile(STYLE_BUFFER_FILE, { input: outfit.style_neurons, output: scores[2] });
+      await appendToFile(WEATHER_BUFFER_FILE, { input: outfit.weather_neurons, output: [scores[0]] });
+      await appendToFile(COLOR_BUFFER_FILE, { input: outfit.color_neurons, output: [scores[1]] });
+      await appendToFile(STYLE_BUFFER_FILE, { input: outfit.style_neurons, output: [scores[2]] });
   
       // check if all buffers contain at least 6 training pairs
       const colorBuffer   = await readBuffer(COLOR_BUFFER_FILE);
       const weatherBuffer = await readBuffer(WEATHER_BUFFER_FILE);
-      const typeBuffer    = await readBuffer(STYLE_BUFFER_FILE);
+      const styleBuffer    = await readBuffer(STYLE_BUFFER_FILE);
   
-      if (colorBuffer.length >= 6 && weatherBuffer.length >= 6 && typeBuffer.length >= 6) {
+      if (colorBuffer.length >= 6 && weatherBuffer.length >= 6 && styleBuffer.length >= 6) {
         // busy-wait until no training session is active for any model
         while (
           await isTrainingSessionActive('color_model') ||
           await isTrainingSessionActive('weather_model') ||
-          await isTrainingSessionActive('type_model')
+          await isTrainingSessionActive('style_model')
         ) {
           await delay(2000);
         }
@@ -302,36 +309,29 @@ export async function giveFeedback(outfitId, scores) {
         // retrieve 6 training pairs from each buffer
         const colorData   = await takePairs(COLOR_BUFFER_FILE, 6);
         const weatherDataBuffered = await takePairs(WEATHER_BUFFER_FILE, 6);
-        const typeData    = await takePairs(STYLE_BUFFER_FILE, 6);
+        const styleData    = await takePairs(STYLE_BUFFER_FILE, 6);
   
         // trigger training sessions concurrently
         await Promise.all([
           callTrainingSession('color_model', colorData),
           callTrainingSession('weather_model', weatherDataBuffered),
-          callTrainingSession('type_model', typeData)
+          callTrainingSession('style_model', styleData)
         ]);
   
         // busy-wait until all training sessions have completed
         while (
           await isTrainingSessionActive('color_model') ||
           await isTrainingSessionActive('weather_model') ||
-          await isTrainingSessionActive('type_model')
+          await isTrainingSessionActive('style_model')
         ) {
           await delay(2000);
         }
   
         // finally, trigger the co–compile endpoint for the three models
-        await compileModels(['color_model', 'weather_model', 'type_model']);
+        await compileModels(['color_model', 'weather_model', 'style_model']);
       }
     } catch (error) {
       console.error('Error in giveFeedback:', error);
     }
   }
 
-module.exports = {
-    createModels,
-    deleteModel,
-    getModelInfo,
-    giveFeedback,
-    generateOutfit,
-};
