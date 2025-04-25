@@ -1,4 +1,4 @@
-import { getOutfitByID, getInferenceSampleByVibe } from './repository';
+import { getOutfitById, getInferenceSampleByVibe } from './repository';
 import { getJsonFile, putJsonFile } from './fileSystemHelper';
 import { getWeather } from './weather-api';
 
@@ -100,9 +100,9 @@ export async function generateOutfit(vibe) {
   
     // call inference endpoints in parallel
     const [ colorRes, weatherRes, styleRes ] = await Promise.all([
-      axios.post(`${BASE_URL}/models/color_model/inference`,   { inputs: colorInputs   }),
-      axios.post(`${BASE_URL}/models/weather_model/inference`, { inputs: weatherInputs }),
-      axios.post(`${BASE_URL}/models/style_model/inference`,   { inputs: styleInputs   })
+      axios.post(`${baseUrl}/models/color_model/inference`,   { inputs: colorInputs   }),
+      axios.post(`${baseUrl}/models/weather_model/inference`, { inputs: weatherInputs }),
+      axios.post(`${baseUrl}/models/style_model/inference`,   { inputs: styleInputs   })
     ]);
   
     const colorOut   = colorRes.data.outputs;
@@ -125,7 +125,7 @@ export async function generateOutfit(vibe) {
     const chosenIdx = top5Indices[Math.floor(Math.random() * top5Indices.length)];
     const chosenId  = outfits[chosenIdx].id;
   
-    return await getOutfitByID(chosenId);
+    return await getOutfitById(chosenId);
   }
 
 
@@ -270,7 +270,7 @@ async function compileModels(modelNames) {
 
 export async function giveFeedback(outfitId, scores) {
     try {
-      const outfit = await getOutfitByID(outfitId);
+      const outfit = await getOutfitById(outfitId);
 
       // creating field for weather neurons
       const weatherData = await getWeather();
