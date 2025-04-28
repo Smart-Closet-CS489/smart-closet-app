@@ -36,10 +36,10 @@
 }
 
 .image-item2 {
-  width: 70%;
-  height: 60%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  width: 25vw;
+  height: 25vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
 }
 
 .star_sticker {
@@ -47,7 +47,7 @@
 }
 
 .temp {
-  font-size: 100;
+  font-size: 90;
   font-weight: 700;
 }
 

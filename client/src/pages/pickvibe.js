@@ -30,6 +30,16 @@ function PickVibe() {
 	// show blank screen while api is loading
 	if (!weather) return <div><div className="App-background"> </div></div>;
 
+	let weatherIcon = "weather_icons/partly_cloudy.png"; // default
+
+	if (weather.snow) {
+		weatherIcon = "weather_icons/snowy.png";
+	} else if (weather.rain) {
+		weatherIcon = "weather_icons/rainy.png";
+	} else if (weather.temperature > 70) {
+		weatherIcon = "weather_icons/sunny.png";
+	}
+
 	return (
 		<div className="App-background">
 			<div className="container">
@@ -55,7 +65,7 @@ function PickVibe() {
 					</div>
 					<div className="column3">
 						<h3 className="maintitle2">Current Weather</h3>
-						<img src="weather_icons/partly_cloudy.png" alt="weather icon" className="image-item2" />
+						<img src={weatherIcon} alt="weather icon" className="image-item2" />
 						<h1 className="temp"> {weather.temperature}° </h1>
 					</div>
 				</div>
