@@ -40,7 +40,8 @@
 } 
 
 .polaroid-label {
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: bold;
   padding-bottom: 9%;
   padding-top: 9%;
 }
@@ -72,14 +73,15 @@
 .select-group {
   display: flex;
   padding-top: 10px;
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 10px;
   border-radius: 10px;
   flex-direction: column;
   align-items: center;
 }
 
 .select-label {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 400;
 }

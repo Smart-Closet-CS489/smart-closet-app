@@ -46,7 +46,7 @@ function PickVibe() {
 				<div className="pickers">
 					<div className="column1">
 						<h3 className="maintitle2">Vibe</h3>
-						<form className="radio-group">
+						<form className="radio-group3">
 							{["Party", "Casual", "Formal", "Athletic"].map((type) => (
 								<label key={type}>
 									<input

@@ -37,7 +37,7 @@ function GenerateFit() {
 
 	async function handleGenerateOutfit() {
 		if (outfitId != 0) {
-		     await handleFeedback();
+		    handleFeedback();
 		}
         console.log("Generating outfit with vibe:", vibeData.vibe);
 		 setOutfitId(await generateOutfit(vibeData.vibe));//put vibe here
@@ -90,7 +90,7 @@ function GenerateFit() {
 						</button>
 
 						<div className="select-row">
-							{["Weather", "Color", "Vibe"].map((label, i) => (
+							{["Weather", "Color", "Style"].map((label, i) => (
 								<div key={i} className="select-group">
 									<label className="select-label">{label}</label>
 									<select

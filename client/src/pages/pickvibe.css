@@ -7,6 +7,7 @@
   width: 0em;
   height: 22em;
   margin: 10px;
+  margin-top: 40px;
   padding: 30px 30px;
   text-align: center;
   border-radius: 10px;
@@ -23,12 +24,14 @@
     font-size: 15px;
 } */
 
-.radio-group {
+.radio-group3 {
   display: flex;
+  font-size: 22px;
   flex-direction: column; /* stack radio buttons vertically */
   align-items: flex-start; /* align to the left */
   gap: 20px; /* space between radio buttons */
   margin-top: 30px;
+  margin-left: 30px;
   input[type="radio"] {
     margin-right: 10px;
     accent-color: #f5b4c5; /* Any color you want */
