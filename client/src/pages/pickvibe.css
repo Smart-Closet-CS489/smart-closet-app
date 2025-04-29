@@ -1,17 +1,17 @@
 .column1,
 .column2,
 .column3 {
-  flex: 1;
-  /* Each column takes equal space */
-  background-color: white;
-  width: 0em;
-  height: 22em;
-  margin: 10px;
-  margin-top: 40px;
-  padding: 30px 30px;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
+    flex: 1;
+    /* Each column takes equal space */
+    background-color: white;
+    width: 0em;
+    height: 22em;
+    margin: 10px;
+    margin-top: 40px;
+    padding: 30px 30px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
 }
 
 /* .backbutton {
@@ -25,36 +25,41 @@
 } */
 
 .radio-group3 {
-  display: flex;
-  font-size: 22px;
-  flex-direction: column; /* stack radio buttons vertically */
-  align-items: flex-start; /* align to the left */
-  gap: 20px; /* space between radio buttons */
-  margin-top: 30px;
-  margin-left: 30px;
-  input[type="radio"] {
-    margin-right: 10px;
-    accent-color: #f5b4c5; /* Any color you want */
-  }
+    display: flex;
+    font-size: 22px;
+    flex-direction: column;
+    /* stack radio buttons vertically */
+    align-items: flex-start;
+    /* align to the left */
+    gap: 20px;
+    /* space between radio buttons */
+    margin-top: 30px;
+    margin-left: 30px;
+
+    input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #f5b4c5;
+        /* Any color you want */
+    }
 }
 
 .image-item2 {
-  width: 25vw;
-  height: 25vw;
-  padding-top: 2vh;
-  padding-bottom: 2vh;
+    width: 25vw;
+    height: 25vw;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
 }
 
 .star_sticker {
-  width:0vw;
+    width: 0vw;
 }
 
 .temp {
-  font-size: 90;
-  font-weight: 700;
+    font-size: 90;
+    font-weight: 700;
 }
 
 .star_sticker.enabled {
-  width:4vw;
-  padding: 5px;
+    width: 4vw;
+    padding: 5px;
 }

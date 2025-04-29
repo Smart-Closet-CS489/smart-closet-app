@@ -120,4 +120,4 @@ function GenerateFit() {
 	);
 }
 
-export default GenerateFit; 
+export default GenerateFit;

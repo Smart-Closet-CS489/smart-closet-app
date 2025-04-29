@@ -1,138 +1,156 @@
 .catalogcontainer {
-  display: flex;
-  justify-content: center;
-  width: 100vh;
-  gap: 0em;
-  flex-grow: 1;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100vh;
+    gap: 0em;
+    flex-grow: 1;
+    align-items: center;
 }
 
 .pickers {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .h3 {
-  font-family: "Jua", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Jua", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
+
 .catalogcolumn1,
 .catalogcolumn2,
 .catalogcolumn3,
 .catalogcolumn4 {
-  flex: 1;
-  /* Each column takes equal space */
-  /* background-color: rgb(226, 226, 226); */
-  width: 15em;
-  height: 20rem;
-  margin: 10px;
-  margin-top: 40px;
-  margin-bottom: 20px;
-  padding: 30px 30px;
-  text-align: center;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
+    flex: 1;
+    /* Each column takes equal space */
+    /* background-color: rgb(226, 226, 226); */
+    width: 15em;
+    height: 20rem;
+    margin: 10px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    padding: 30px 30px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
 }
 
 
 .radio-group {
-  display: flex;
-  flex-direction: column;
-  /* stack radio buttons vertically */
-  align-items: flex-start;
-  /* align to the left */
-  gap: 20px;
-  margin-top: 30px;
-  /* space between radio buttons */
-  margin-left: -10px;
-  font-size: 17px;
-  input[type="radio"] {
-    margin-right: 10px;
-    accent-color: #f5b4c5; /* Any color you want */
-  }
+    display: flex;
+    flex-direction: column;
+    /* stack radio buttons vertically */
+    align-items: flex-start;
+    /* align to the left */
+    gap: 20px;
+    margin-top: 30px;
+    /* space between radio buttons */
+    margin-left: -10px;
+    font-size: 17px;
+
+    input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #f5b4c5;
+        /* Any color you want */
+    }
 }
 
 .checkbox-group {
-  display: flex;
-  flex-direction: column;
-  /* stack buttons vertically */
-  align-items: flex-start;
-  /* align to the left */
-  gap: 20px;
-  font-size: 17px;
-  margin-left: -10px;
-  margin-top: 25px;
-  input[type="checkbox"] {
-    margin-right: 10px;
-  }
-  accent-color: #f5b4c5; /* Any color you want */
+    display: flex;
+    flex-direction: column;
+    /* stack buttons vertically */
+    align-items: flex-start;
+    /* align to the left */
+    gap: 20px;
+    font-size: 17px;
+    margin-left: -10px;
+    margin-top: 25px;
+
+    input[type="checkbox"] {
+        margin-right: 10px;
+    }
+
+    accent-color: #f5b4c5;
+    /* Any color you want */
 
 }
 
 .digital_cam {
-  padding-left: 10px;
-  width: 70px;
-  height: 40px
+    padding-left: 10px;
+    width: 70px;
+    height: 40px
 }
 
 .backbutton {
-  border: none;
-  background-color: #f5d3dc;
-  text-align: center;
-  padding: 10px 15px;
-  border-radius: 10px;
-  font-size: 20px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
+    border: none;
+    background-color: #f5d3dc;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
 }
 
 .photobutton {
-  border: none;
-  text-align: center;
-  padding: 10px 15px;
-  border-radius: 10px;
-  font-size:20px;
-  cursor: not-allowed; /* Default cursor */
-  background-color: rgb(226, 226, 226); /* Default grey */
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
-  color: black;
+    border: none;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: not-allowed;
+    /* Default cursor */
+    background-color: rgb(226, 226, 226);
+    /* Default grey */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
+    color: black;
 }
 
 .photobutton.enabled {
-  background-color: #c1db9b;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
-  cursor: pointer;
+    background-color: #c1db9b;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.199);
+    cursor: pointer;
 }
 
 .button-container {
-  display: flex;
-  justify-content: space-between; /* Push buttons to far ends */
-  width: 100%; /* Ensure it spans full width */
-  padding: 10px 20px; /* Add spacing on sides */
+    display: flex;
+    justify-content: space-between;
+    /* Push buttons to far ends */
+    width: 100%;
+    /* Ensure it spans full width */
+    padding: 10px 20px;
+    /* Add spacing on sides */
 }
 
 .sketch-picker {
-  box-shadow: none !important;
-  /* remove shadow */
-  border: 1px solid #ccc;
+    box-shadow: none !important;
+    /* remove shadow */
+    border: 1px solid #ccc;
 }
 
 #cp5d {
-  margin-top: -10px !important; /* padding at top */
-  margin-left: -15px !important; /* padding left */
-  margin-right: -15px !important; /* padding right */
-  padding: 0px;
-  transform: scale(0.9); /* Adjust the scale factor to make it smaller */
-  transform-origin: center; /* Ensure it scales from the center */
+    margin-top: -10px !important;
+    /* padding at top */
+    margin-left: -15px !important;
+    /* padding left */
+    margin-right: -15px !important;
+    /* padding right */
+    padding: 0px;
+    transform: scale(0.9);
+    /* Adjust the scale factor to make it smaller */
+    transform-origin: center;
+    /* Ensure it scales from the center */
 }
 
 #cp5d .colorpicker {
-  padding: 7px; /* Reduce padding */
-  
+    padding: 7px;
+    /* Reduce padding */
+
 }
 
 
 .colorpicker-bar {
-  height: 12vh !important; /* Adjust height as needed */
+    height: 12vh !important;
+    /* Adjust height as needed */
 }
